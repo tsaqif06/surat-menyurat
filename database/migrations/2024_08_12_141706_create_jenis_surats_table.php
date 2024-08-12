@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('jenis_surats', function (Blueprint $table) {
             $table->increments('id_jenis_surat');
             $table->string('nama_jenis_surat', 20);
-            $table->timestamps();
         });
     }
 

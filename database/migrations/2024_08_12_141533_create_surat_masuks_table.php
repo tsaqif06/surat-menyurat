@@ -34,7 +34,6 @@ return new class extends Migration
             $table->text('ket_disposisi');
             $table->string('nama_ruang', 100);
             $table->string('no_almari', 20);
-            $table->timestamps();
         });
     }
 

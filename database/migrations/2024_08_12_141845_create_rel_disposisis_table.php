@@ -17,9 +17,6 @@ return new class extends Migration
             $table->integer('id_bagian');
             $table->integer('id_surat_masuk');
             $table->integer('id_surat_keluar');
-            $table->integer('status_disposisi', 100);
-            $table->primary(['id_bagian', 'id_surat_masuk', 'id_surat_keluar']);
-            $table->timestamps();
         });
     }
 

@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('ruang_penyimpanans', function (Blueprint $table) {
             $table->increments('id_ruang_penyimpanan');
             $table->string('nama_ruang', 500);
-            $table->timestamps();
         });
     }
 

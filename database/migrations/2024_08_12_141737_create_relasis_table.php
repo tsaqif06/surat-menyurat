@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('relasis', function (Blueprint $table) {
             $table->increments('id_relasi');
             $table->string('nama_relasi', 100);
-            $table->timestamps();
         });
     }
 
