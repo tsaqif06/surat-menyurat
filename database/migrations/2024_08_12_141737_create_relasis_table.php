@@ -11,12 +11,11 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('configs', function (Blueprint $table) {
-            $table->id();
-            $table->string('code')->unique();
-            $table->text('value');
+        Schema::create('relasis', function (Blueprint $table) {
+            $table->increments('id_relasi');
+            $table->string('nama_relasi', 100);
             $table->timestamps();
         });
     }
@@ -26,8 +25,8 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('configs');
+        Schema::dropIfExists('relasis');
     }
 };
