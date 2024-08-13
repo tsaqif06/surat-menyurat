@@ -36,6 +36,7 @@ return [
         'status' => 'Status',
     ],
     'user' => [
+        'username' => 'Username',
         'name' => 'Name',
         'email' => 'Email',
         'password' => 'Password',

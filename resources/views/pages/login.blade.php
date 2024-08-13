@@ -75,9 +75,9 @@
                         @csrf
                         <div class="mb-3">
                             <x-input-form
-                                name="email"
-                                type="email"
-                                :label="__('model.user.email')"
+                                name="username"
+                                type="username"
+                                :label="__('model.user.username')"
                             />
                         </div>
                         <div class="mb-3">

@@ -36,9 +36,10 @@ return [
         'status' => 'Sifat Status',
     ],
     'user' => [
+        'username' => 'username',
         'name' => 'Nama',
-        'email' => 'Surel',
-        'password' => 'Kata Sandi',
+        'email' => 'Email',
+        'password' => 'Password',
         'phone' => 'Nomor Telepon',
         'role' => 'Peran',
         'is_active' => 'Masih Aktif?',

@@ -17,12 +17,19 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Administrator',
-            'email' => 'admin@admin.com',
-            'phone' => '082121212121',
-            'password' => Hash::make('admin'),
-            'role' => Role::ADMIN->status(),
+        User::insert([
+            [
+                'id_jabatan' => 1,
+                'nama_user' => 'Admin',
+                'username' => 'admin',
+                'password' => 'admin123', // Gunakan Hash untuk mengenkripsi password
+            ],
+            [
+                'id_jabatan' => 2,
+                'nama_user' => 'User',
+                'username' => 'user',
+                'password' => 'user123', // Gunakan Hash untuk mengenkripsi password
+            ],
         ]);
     }
 }
