@@ -11,10 +11,18 @@ class Bagian extends Model
 
     protected $table = 'bagian';
     protected $primaryKey = 'id_bagian';
-    public $timestamps = false;
 
-    public function relDisposisi()
+    protected $fillable = [
+        'nama_bagian',
+    ];
+
+    public function suratMasuk()
     {
-        return $this->hasMany(RelDisposisi::class, 'id_bagian', 'id_bagian');
+        return $this->hasMany(SuratMasuk::class, 'id_bagian');
+    }
+
+    public function suratKeluar()
+    {
+        return $this->hasMany(SuratKeluar::class, 'id_bagian');
     }
 }

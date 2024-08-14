@@ -8,4 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class RuangPenyimpanan extends Model
 {
     use HasFactory;
+
+    protected $table = 'ruang_penyimpanan';
+    protected $primaryKey = 'id_ruang_penyimpanan';
+
+    protected $fillable = [
+        'nama_ruang',
+    ];
+
+    public function suratMasuk()
+    {
+        return $this->hasMany(SuratMasuk::class, 'id_ruang_penyimpanan');
+    }
+
+    public function suratKeluar()
+    {
+        return $this->hasMany(SuratKeluar::class, 'id_ruang_penyimpanan');
+    }
 }
