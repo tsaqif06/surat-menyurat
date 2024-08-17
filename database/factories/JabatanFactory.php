@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Jabatan;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,10 +15,12 @@ class JabatanFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = Jabatan::class;
     public function definition()
     {
         return [
-            //
+            'id_jabatan' => $this->faker->unique()->numberBetween(1, 100),
+            'nama_jabatan' => $this->faker->jobTitle,
         ];
     }
 }

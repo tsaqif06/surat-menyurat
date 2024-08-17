@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\JenisSurat;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,10 +15,13 @@ class JenisSuratFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = JenisSurat::class;
+
     public function definition()
     {
         return [
-            //
+            'id_jenis_surat' => $this->faker->unique()->numberBetween(1, 100),
+            'nama_jenis_surat' => $this->faker->word,
         ];
     }
 }

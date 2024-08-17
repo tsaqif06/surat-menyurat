@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Bagian;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,10 +15,13 @@ class BagianFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = Bagian::class;
+
     public function definition()
     {
         return [
-            //
+            'id_bagian' => $this->faker->unique()->numberBetween(1, 100),
+            'nama_bagian' => $this->faker->word,
         ];
     }
 }
