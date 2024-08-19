@@ -9,8 +9,9 @@ class RuangPenyimpanan extends Model
 {
     use HasFactory;
 
-    protected $table = 'ruang_penyimpanan';
+    protected $table = 'ruang_penyimpanans';
     protected $primaryKey = 'id_ruang_penyimpanan';
+    public $timestamps = false;
 
     protected $fillable = [
         'nama_ruang',

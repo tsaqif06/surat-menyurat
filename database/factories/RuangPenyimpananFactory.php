@@ -20,7 +20,7 @@ class RuangPenyimpananFactory extends Factory
     public function definition()
     {
         return [
-            'id_ruang' => $this->faker->unique()->numberBetween(1, 100),
+            // 'id_ruang_penyimpanan' => $this->faker->unique()->numberBetween(1, 10000),
             'nama_ruang' => $this->faker->word,
         ];
     }

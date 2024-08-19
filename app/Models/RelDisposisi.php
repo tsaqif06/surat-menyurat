@@ -11,6 +11,7 @@ class RelDisposisi extends Model
 
     protected $table = 'rel_disposisi';
     protected $primaryKey = 'id_disposisi';
+    public $timestamps = false;
 
     protected $fillable = [
         'id_surat_masuk',

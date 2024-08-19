@@ -9,8 +9,9 @@ class Bagian extends Model
 {
     use HasFactory;
 
-    protected $table = 'bagian';
+    protected $table = 'bagians';
     protected $primaryKey = 'id_bagian';
+    public $timestamps = false;
 
     protected $fillable = [
         'nama_bagian',

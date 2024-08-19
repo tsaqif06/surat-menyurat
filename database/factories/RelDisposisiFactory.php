@@ -23,7 +23,7 @@ class RelDisposisiFactory extends Factory
     public function definition()
     {
         return [
-            'id_disposisi' => $this->faker->unique()->numberBetween(1, 100),
+            // 'id_disposisi' => $this->faker->unique()->numberBetween(1, 10000),
             'id_bagian' => Bagian::factory(),
             'id_surat_masuk' => SuratMasuk::factory(),
             'id_surat_keluar' => SuratKeluar::factory(),
