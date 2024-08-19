@@ -75,8 +75,15 @@
                         @csrf
                         <div class="mb-3">
                             <x-input-form
+                                name="email"
+                                type="email"
+                                :label="__('model.user.email')"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <x-input-form
                                 name="username"
-                                type="username"
+                                type="text"
                                 :label="__('model.user.username')"
                             />
                         </div>
@@ -91,6 +98,16 @@
                             <button class="btn btn-primary d-grid w-100" type="submit">{{ __('menu.auth.login') }}</button>
                         </div>
                     </form>
+                    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
                 </div>
             </div>
             <!-- /Register -->

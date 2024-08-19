@@ -39,21 +39,19 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
-        Fortify::authenticateUsing(function (Request $request) {
-            $user = User::where('username', $request->username)->first();
-
-            // Bandingkan password langsung tanpa hashing
-            if ($user && $request->password === $user->password) {
-                return $user;
+        Fortify::authenticateUsing(function ($request) {
+            $user = \App\Models\User::where('email', $request->email)->first();
+        
+            if ($user && Hash::check($request->password, $user->password)) {
+                return $user; // Ensure $user is an instance of Authenticatable
             }
-
-            return false;
         });
+        
 
         RateLimiter::for('login', function (Request $request) {
-            $email = (string) $request->email;
+            $username = (string) $request->username;
 
-            return Limit::perMinute(5)->by($email . $request->ip());
+            return Limit::perMinute(5)->by($username . $request->ip());
         });
 
         RateLimiter::for('two-factor', function (Request $request) {

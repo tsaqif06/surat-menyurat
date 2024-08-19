@@ -88,49 +88,5 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-4 order-1">
-            <div class="row">
-                <div class="col-lg-6 col-md-12 col-6 mb-4">
-                    <x-dashboard-card-simple
-                        :label="__('dashboard.incoming_letter')"
-                        :value="$todayIncomingLetter"
-                        :daily="true"
-                        color="success"
-                        icon="bx-envelope"
-                        :percentage="$percentageIncomingLetter"
-                    />
-                </div>
-                <div class="col-lg-6 col-md-12 col-6 mb-4">
-                    <x-dashboard-card-simple
-                        :label="__('dashboard.outgoing_letter')"
-                        :value="$todayOutgoingLetter"
-                        :daily="true"
-                        color="danger"
-                        icon="bx-envelope"
-                        :percentage="$percentageOutgoingLetter"
-                    />
-                </div>
-                <div class="col-lg-6 col-md-12 col-6 mb-4">
-                    <x-dashboard-card-simple
-                        :label="__('dashboard.disposition_letter')"
-                        :value="$todayDispositionLetter"
-                        :daily="true"
-                        color="primary"
-                        icon="bx-envelope"
-                        :percentage="$percentageDispositionLetter"
-                    />
-                </div>
-                <div class="col-lg-6 col-md-12 col-6 mb-4">
-                    <x-dashboard-card-simple
-                        :label="__('dashboard.active_user')"
-                        :value="$activeUser"
-                        :daily="false"
-                        color="info"
-                        icon="bx-user-check"
-                        :percentage="0"
-                    />
-                </div>
-            </div>
-        </div>
     </div>
 @endsection
