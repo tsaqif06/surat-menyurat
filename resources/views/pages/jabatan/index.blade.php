@@ -123,14 +123,23 @@
                 e.preventDefault();
                 var url = $(this).attr('action');
                 var method = ($('#id_jabatan').val() === '') ? 'POST' : 'PUT';
-                console.log($(this).serialize())
 
                 $.ajax({
                     url: url,
                     method: method,
                     data: $(this).serialize(),
                     success: function(response) {
-                        location.reload(); // Reload page to reflect changes
+                        $('#jabatan-modal').modal('hide');
+                        Swal.fire({
+                            title: 'Success!',
+                            text: response.message,
+                            icon: 'success',
+                            confirmButtonColor: '#696cff'
+                        }).then(() => {
+                            // Arahkan kembali ke halaman utama atau reload data
+                            window.location
+                                .reload(); // Reload halaman untuk memperbarui tampilan
+                        });
                     }
                 });
             });
