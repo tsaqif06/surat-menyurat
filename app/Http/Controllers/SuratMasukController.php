@@ -15,7 +15,7 @@ class SuratMasukController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.suratmasuk.index');
     }
 
     /**
