@@ -19,8 +19,8 @@ class JabatanFactory extends Factory
     public function definition()
     {
         return [
-            'id_jabatan' => $this->faker->unique()->numberBetween(1, 100),
-            'nama_jabatan' => $this->faker->jobTitle,
+            // 'id_jabatan' => $this->faker->unique()->numberBetween(1, 10000),
+            'nama_jabatan' => substr($this->faker->jobTitle, 0, 50),
         ];
     }
 }

@@ -40,13 +40,13 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
         Fortify::authenticateUsing(function ($request) {
-            $user = \App\Models\User::where('email', $request->email)->first();
-        
-            if ($user && Hash::check($request->password, $user->password)) {
+            $user = \App\Models\User::where('username', $request->username)->first();
+
+            if ($user && $request->password == $user->password) {
                 return $user; // Ensure $user is an instance of Authenticatable
             }
         });
-        
+
 
         RateLimiter::for('login', function (Request $request) {
             $username = (string) $request->username;

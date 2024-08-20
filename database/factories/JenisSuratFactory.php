@@ -20,7 +20,7 @@ class JenisSuratFactory extends Factory
     public function definition()
     {
         return [
-            'id_jenis_surat' => $this->faker->unique()->numberBetween(1, 100),
+            // 'id_jenis_surat' => $this->faker->unique()->numberBetween(1, 10000),
             'nama_jenis_surat' => $this->faker->word,
         ];
     }

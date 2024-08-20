@@ -9,7 +9,8 @@ class SuratMasuk extends Model
 {
     use HasFactory;
 
-    protected $table = 'surat_masuk';
+    protected $table = 'surat_masuks';
+    public $timestamps = false;
     protected $primaryKey = 'id_surat_masuk';
     protected $fillable = [
         'id_relasi',

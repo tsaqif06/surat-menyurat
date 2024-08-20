@@ -20,7 +20,7 @@ class BagianFactory extends Factory
     public function definition()
     {
         return [
-            'id_bagian' => $this->faker->unique()->numberBetween(1, 100),
+            // 'id_bagian' => $this->faker->unique()->numberBetween(1, 10000),
             'nama_bagian' => $this->faker->word,
         ];
     }

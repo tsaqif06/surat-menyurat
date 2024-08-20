@@ -22,9 +22,9 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'id_user' => $this->faker->unique()->numberBetween(1, 100),
+            // 'id_user' => $this->faker->unique()->numberBetween(1, 10000),
             'id_jabatan' => Jabatan::factory(),
-            'nama_user' => $this->faker->name,
+            'nama_user' => substr($this->faker->name(), 0, 25),
             'username' => $this->faker->unique()->userName,
             'password' => 'password123', // atau gunakan hashed password lainnya
         ];

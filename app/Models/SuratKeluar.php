@@ -9,8 +9,9 @@ class SuratKeluar extends Model
 {
     use HasFactory;
 
-    protected $table = 'surat_keluar';
+    protected $table = 'surat_keluars';
     protected $primaryKey = 'id_surat_keluar';
+    public $timestamps = false;
 
     protected $fillable = [
         'id_relasi',

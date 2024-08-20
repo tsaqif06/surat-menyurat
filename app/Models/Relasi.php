@@ -9,8 +9,9 @@ class Relasi extends Model
 {
     use HasFactory;
 
-    protected $table = 'relasi';
+    protected $table = 'relasis';
     protected $primaryKey = 'id_relasi';
+    public $timestamps = false;
 
     protected $fillable = [
         'id_relasi',
