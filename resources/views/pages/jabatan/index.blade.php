@@ -34,17 +34,16 @@
                             <td>{{ $jabatan->id_jabatan }}</td>
                             <td>{{ $jabatan->nama_jabatan }}</td>
                             <td>
-                                <!-- Edit Button with Icon -->
                                 <button type="button" class="btn btn-primary btn-sm btn-edit"
                                     data-id="{{ $jabatan->id_jabatan }}" data-nama-jabatan="{{ $jabatan->nama_jabatan }}">
                                     <i class="bx bx-edit"></i>
                                 </button>
-                                <!-- Delete Form with Icon -->
                                 <form action="{{ route('jabatan.destroy', $jabatan->id_jabatan) }}" method="POST"
                                     style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">
+                                    <button type="button" class="btn btn-danger btn-sm btn-delete"
+                                        data-id="{{ $jabatan->id_jabatan }}">
                                         <i class="bx bx-trash"></i>
                                     </button>
                                 </form>

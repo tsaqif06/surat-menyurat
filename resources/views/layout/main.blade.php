@@ -127,7 +127,11 @@
     $('#table').DataTable();
 </script>
 <script>
-    $(document).on('click', '.btn-delete', function(req) {
+    $(document).on('click', '.btn-delete', function(e) {
+        e.preventDefault(); // Mencegah form disubmit sebelum SweetAlert
+
+        var form = $(this).closest('form'); // Mendapatkan form terdekat
+
         Swal.fire({
             title: '{{ __('menu.general.delete_confirm') }}',
             text: "{{ __('menu.general.delete_warning') }}",
@@ -138,9 +142,34 @@
             cancelButtonText: '{{ __('menu.general.cancel') }}'
         }).then((result) => {
             if (result.isConfirmed) {
-                $(this).parent('form').submit();
+                $.ajax({
+                    url: form.attr('action'),
+                    method: 'POST',
+                    data: form.serialize(), // Mengirimkan data form termasuk CSRF token
+                    success: function(response) {
+                        Swal.fire({
+                            title: 'Deleted!',
+                            text: response.message,
+                            icon: 'success',
+                            confirmButtonColor: '#696cff'
+                        }).then(() => {
+                            // Arahkan kembali ke halaman utama atau reload data
+                            window.location
+                        .reload(); // Reload halaman untuk memperbarui tabel
+                        });
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            title: 'Failed!',
+                            text: xhr.responseJSON.error ||
+                                'There was an error deleting the record.',
+                            icon: 'error',
+                            confirmButtonColor: '#696cff'
+                        });
+                    }
+                });
             }
-        })
+        });
     });
 </script>
 

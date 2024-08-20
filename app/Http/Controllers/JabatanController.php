@@ -37,8 +37,12 @@ class JabatanController extends Controller
      */
     public function store(StoreJabatanRequest $request)
     {
-        Jabatan::create($request->validated());
-        return response()->json(['message' => 'Jabatan created successfully.'], 201);
+        try {
+            Jabatan::create($request->validated());
+            return response()->json(['message' => 'Jabatan created successfully.'], 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to create Jabatan.'], 500);
+        }
     }
 
     /**
@@ -72,8 +76,12 @@ class JabatanController extends Controller
      */
     public function update(UpdateJabatanRequest $request, Jabatan $jabatan)
     {
-        $jabatan->update($request->validated());
-        return response()->json(['message' => 'Jabatan updated successfully.']);
+        try {
+            $jabatan->update($request->validated());
+            return response()->json(['message' => 'Jabatan updated successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to update Jabatan.'], 500);
+        }
     }
 
     /**
@@ -84,7 +92,11 @@ class JabatanController extends Controller
      */
     public function destroy(Jabatan $jabatan)
     {
-        $jabatan->delete();
-        return response()->json(['message' => 'Jabatan deleted successfully.']);
+        try {
+            $jabatan->delete();
+            return response()->json(['message' => 'Jabatan deleted successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete Jabatan.'], 500);
+        }
     }
 }
