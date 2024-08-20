@@ -15,7 +15,8 @@ class JabatanController extends Controller
      */
     public function index()
     {
-        return view('pages.jabatan.index');
+        $jabatans = Jabatan::all();
+        return view('pages.jabatan.index', ['jabatans' => $jabatans]);
     }
 
     /**
@@ -25,7 +26,7 @@ class JabatanController extends Controller
      */
     public function create()
     {
-        //
+        // Optional: Return view if needed for separate form
     }
 
     /**
@@ -36,7 +37,8 @@ class JabatanController extends Controller
      */
     public function store(StoreJabatanRequest $request)
     {
-        //
+        Jabatan::create($request->validated());
+        return response()->json(['message' => 'Jabatan created successfully.'], 201);
     }
 
     /**
@@ -47,7 +49,7 @@ class JabatanController extends Controller
      */
     public function show(Jabatan $jabatan)
     {
-        //
+        return response()->json($jabatan);
     }
 
     /**
@@ -58,7 +60,7 @@ class JabatanController extends Controller
      */
     public function edit(Jabatan $jabatan)
     {
-        //
+        // Optional: Return view if needed for separate form
     }
 
     /**
@@ -70,7 +72,8 @@ class JabatanController extends Controller
      */
     public function update(UpdateJabatanRequest $request, Jabatan $jabatan)
     {
-        //
+        $jabatan->update($request->validated());
+        return response()->json(['message' => 'Jabatan updated successfully.']);
     }
 
     /**
@@ -81,6 +84,7 @@ class JabatanController extends Controller
      */
     public function destroy(Jabatan $jabatan)
     {
-        //
+        $jabatan->delete();
+        return response()->json(['message' => 'Jabatan deleted successfully.']);
     }
 }

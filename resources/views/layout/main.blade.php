@@ -43,17 +43,19 @@
     />
 
     <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="{{asset('sneat/vendor/fonts/boxicons.css')}}"/>
+    <link rel="stylesheet" href="{{ asset('sneat/vendor/fonts/boxicons.css') }}"/>
 
     <!-- Core CSS -->
-    <link rel="stylesheet" class="template-customizer-core-css" href="{{asset('sneat/vendor/css/core.css')}}"/>
+    <link rel="stylesheet" class="template-customizer-core-css" href="{{ asset('sneat/vendor/css/core.css') }}"/>
     <link rel="stylesheet" class="template-customizer-theme-css"
-          href="{{asset('sneat/vendor/css/theme-default.css')}}"/>
-    <link rel="stylesheet" href="{{asset('sneat/css/demo.css')}}"/>
+          href="{{ asset('sneat/vendor/css/theme-default.css') }}"/>
+          <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{ asset('sneat/css/demo.css') }}"/>
 
     <!-- Vendors CSS -->
-    <link rel="stylesheet" href="{{asset('sneat/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}"/>
-    <link rel="stylesheet" href="{{asset('sneat/vendor/libs/sweetalert2/sweetalert2.min.css')}}"/>
+    <link rel="stylesheet" href="{{ asset('sneat/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('sneat/vendor/libs/sweetalert2/sweetalert2.min.css') }}"/>
 
     <!-- Page CSS -->
     @stack('style')
@@ -106,22 +108,26 @@
 
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
-<script src="{{ asset('sneat/vendor/libs/jquery/jquery.js')}}"></script>
-<script src="{{ asset('sneat/vendor/libs/popper/popper.js')}}"></script>
-<script src="{{ asset('sneat/vendor/js/bootstrap.js')}}"></script>
-<script src="{{ asset('sneat/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
+<script src="{{ asset('sneat/vendor/libs/jquery/jquery.js') }}"></script>
+<script src="{{ asset('sneat/vendor/libs/popper/popper.js') }}"></script>
+<script src="{{ asset('sneat/vendor/js/bootstrap.js') }}"></script>
+<script src="{{ asset('sneat/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
 
-<script src="{{ asset('sneat/vendor/js/menu.js')}}"></script>
+<script src="{{ asset('sneat/vendor/js/menu.js') }}"></script>
 <!-- endbuild -->
 
 <!-- Vendors JS -->
-<script src="{{ asset('sneat/vendor/libs/masonry/masonry.js')}}"></script>
-<script src="{{ asset('sneat/vendor/libs/sweetalert2/sweetalert2.all.min.js')}}"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="{{ asset('sneat/vendor/libs/masonry/masonry.js') }}"></script>
+<script src="{{ asset('sneat/vendor/libs/sweetalert2/sweetalert2.all.min.js') }}"></script>
 
 <!-- Main JS -->
-<script src="{{ asset('sneat/js/main.js')}}"></script>
+<script src="{{ asset('sneat/js/main.js') }}"></script>
 <script>
-    $(document).on('click', '.btn-delete', function (req) {
+    $('#table').DataTable();
+</script>
+<script>
+    $(document).on('click', '.btn-delete', function(req) {
         Swal.fire({
             title: '{{ __('menu.general.delete_confirm') }}',
             text: "{{ __('menu.general.delete_warning') }}",
@@ -141,31 +147,30 @@
 <!-- Page JS -->
 @stack('script')
 
-@if(session('success'))
-    <script>
-        Toast.fire({
-            icon: 'success',
-            title: '{{ session('success') }}'
-        })
-    </script>
+@if (session('success'))
+<script>
+    Toast.fire({
+        icon: 'success',
+        title: '{{ session('success') }}'
+    })
+</script>
 @elseif(session('error'))
-    <script>
-        Toast.fire({
-            icon: 'error',
-            title: '{{ session('error') }}'
-        })
-    </script>
+<script>
+    Toast.fire({
+        icon: 'error',
+        title: '{{ session('error') }}'
+    })
+</script>
 @elseif(session('info'))
-    <script>
-        Toast.fire({
-            icon: 'info',
-            title: '{{ session('info') }}'
-        })
-    </script>
+<script>
+    Toast.fire({
+        icon: 'info',
+        title: '{{ session('info') }}'
+    })
+</script>
 @endif
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 </html>
-

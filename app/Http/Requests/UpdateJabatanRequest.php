@@ -24,7 +24,7 @@ class UpdateJabatanRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'nama_jabatan' => 'required|string|max:50',
         ];
     }
 }

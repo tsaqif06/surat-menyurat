@@ -20,8 +20,9 @@ Route::middleware(['auth'])->group(function () {
         ->except(['show', 'edit', 'create'])
         ->middleware(['role:admin']);
 
-    Route::get('jabatan', [\App\Http\Controllers\JabatanController::class, 'index'])
-        ->name('jabatan.index');
+    // Route::get('jabatan', [\App\Http\Controllers\JabatanController::class, 'index'])
+    //     ->name('jabatan.index');
+    Route::resource('jabatan', \App\Http\Controllers\JabatanController::class);
     Route::get('bagian', [\App\Http\Controllers\BagianController::class, 'index'])
         ->name('bagian.index');
     Route::get('jenis', [\App\Http\Controllers\JenisSuratController::class, 'index'])
