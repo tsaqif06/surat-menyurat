@@ -15,7 +15,7 @@ class BagianController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.bagian.index');
     }
 
     /**

@@ -20,6 +20,23 @@ Route::middleware(['auth'])->group(function () {
         ->except(['show', 'edit', 'create'])
         ->middleware(['role:admin']);
 
+    Route::get('jabatan', [\App\Http\Controllers\JabatanController::class, 'index'])
+        ->name('jabatan.index');
+    Route::get('bagian', [\App\Http\Controllers\BagianController::class, 'index'])
+        ->name('bagian.index');
+    Route::get('jenis', [\App\Http\Controllers\JenisSuratController::class, 'index'])
+        ->name('jenis.index');
+    Route::get('ruang', [\App\Http\Controllers\RuangPenyimpananController::class, 'index'])
+        ->name('ruang.index');
+    Route::get('relasi', [\App\Http\Controllers\RelasiController::class, 'index'])
+        ->name('relasi.index');
+    Route::get('surat', [\App\Http\Controllers\SuratMasukController::class, 'index'])
+        ->name('surat.index');
+    Route::get('disposisi', [\App\Http\Controllers\DisposisiController::class, 'index'])
+        ->name('disposisi.index');
+    Route::get('approve', [\App\Http\Controllers\ApproveController::class, 'index'])
+        ->name('approve.index');
+
     Route::get('profile', [\App\Http\Controllers\PageController::class, 'profile'])
         ->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\PageController::class, 'profileUpdate'])
@@ -60,5 +77,4 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('classification', \App\Http\Controllers\ClassificationController::class)->except(['show', 'create', 'edit']);
         Route::resource('status', \App\Http\Controllers\LetterStatusController::class)->except(['show', 'create', 'edit']);
     });
-
 });

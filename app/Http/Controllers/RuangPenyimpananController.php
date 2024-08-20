@@ -15,7 +15,7 @@ class RuangPenyimpananController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.ruang.index');
     }
 
     /**

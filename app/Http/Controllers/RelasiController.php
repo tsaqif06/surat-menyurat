@@ -15,7 +15,7 @@ class RelasiController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.relasi.index');
     }
 
     /**
