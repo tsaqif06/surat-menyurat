@@ -23,7 +23,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory()->count(10)->create();
-        Jabatan::factory()->count(5)->create();
+        $this->call([
+            JabatanSeeder::class,
+        ]);
         JenisSurat::factory()->count(5)->create();
         Relasi::factory()->count(5)->create();
         RuangPenyimpanan::factory()->count(5)->create();
