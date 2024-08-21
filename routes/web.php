@@ -33,13 +33,18 @@ Route::middleware(['auth'])->group(function () {
     Route::post('pdisposisi/tolak/{id}', [\App\Http\Controllers\SuratMasukController::class, 'tolak'])
         ->name('pdisposisi.tolak');
 
+    Route::get('approve', [\App\Http\Controllers\SuratKeluarController::class, 'persetujuan'])
+        ->name('approve.index');
+    Route::post('approve/setuju/{id}', [\App\Http\Controllers\SuratKeluarController::class, 'setuju'])
+        ->name('approve.setuju');
+    Route::post('approve/tolak/{id}', [\App\Http\Controllers\SuratKeluarController::class, 'tolak'])
+        ->name('approve.tolak');
+
 
     Route::get('surat', [\App\Http\Controllers\SuratMasukController::class, 'index'])
         ->name('surat.index');
     Route::get('disposisi', [\App\Http\Controllers\DisposisiController::class, 'index'])
         ->name('disposisi.index');
-    Route::get('approve', [\App\Http\Controllers\ApproveController::class, 'index'])
-        ->name('approve.index');
 
     Route::get('profile', [\App\Http\Controllers\PageController::class, 'profile'])
         ->name('profile.show');

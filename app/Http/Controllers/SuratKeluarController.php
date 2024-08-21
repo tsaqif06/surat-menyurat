@@ -18,6 +18,40 @@ class SuratKeluarController extends Controller
         //
     }
 
+    public function persetujuan()
+    {
+
+        $suratkeluars = SuratKeluar::all();
+        return view('pages.approve.index', ['suratkeluars' => $suratkeluars]);
+    }
+
+    public function setuju($id)
+    {
+        try {
+            $suratKeluar = SuratKeluar::findOrFail($id);
+            $suratKeluar->status_surat = 2;
+            $suratKeluar->save();
+
+            return response()->json(['message' => 'Surat berhasil disetujui.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal menyetujui surat.'], 500);
+        }
+    }
+
+    // Handle Tolak
+    public function tolak($id)
+    {
+        try {
+            $suratKeluar = SuratKeluar::findOrFail($id);
+            $suratKeluar->status_surat = 0;
+            $suratKeluar->save();
+
+            return response()->json(['message' => 'Surat berhasil ditolak.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal menolak surat.'], 500);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
