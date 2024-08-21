@@ -20,21 +20,20 @@ Route::middleware(['auth'])->group(function () {
         ->except(['show', 'edit', 'create'])
         ->middleware(['role:admin']);
 
-    // Route::get('jabatan', [\App\Http\Controllers\JabatanController::class, 'index'])
-    //     ->name('jabatan.index');
     Route::resource('jabatan', \App\Http\Controllers\JabatanController::class);
     Route::resource('bagian', \App\Http\Controllers\BagianController::class);
     Route::resource('jenis', \App\Http\Controllers\JenisSuratController::class);
     Route::resource('relasi', \App\Http\Controllers\RelasiController::class);
     Route::resource('ruang', \App\Http\Controllers\RuangPenyimpananController::class);
-    // Route::get('bagian', [\App\Http\Controllers\BagianController::class, 'index'])
-    //     ->name('bagian.index');
-    // Route::get('jenis', [\App\Http\Controllers\JenisSuratController::class, 'index'])
-    //     ->name('jenis.index');
-    // Route::get('ruang', [\App\Http\Controllers\RuangPenyimpananController::class, 'index'])
-    //     ->name('ruang.index');
-    // Route::get('relasi', [\App\Http\Controllers\RelasiController::class, 'index'])
-    //     ->name('relasi.index');
+
+    Route::get('pdisposisi', [\App\Http\Controllers\SuratMasukController::class, 'persetujuan'])
+        ->name('pdisposisi.index');
+    Route::post('pdisposisi/setuju/{id}', [\App\Http\Controllers\SuratMasukController::class, 'setuju'])
+        ->name('pdisposisi.setuju');
+    Route::post('pdisposisi/tolak/{id}', [\App\Http\Controllers\SuratMasukController::class, 'tolak'])
+        ->name('pdisposisi.tolak');
+
+
     Route::get('surat', [\App\Http\Controllers\SuratMasukController::class, 'index'])
         ->name('surat.index');
     Route::get('disposisi', [\App\Http\Controllers\DisposisiController::class, 'index'])
