@@ -40,6 +40,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('approve/tolak/{id}', [\App\Http\Controllers\SuratKeluarController::class, 'tolak'])
         ->name('approve.tolak');
 
+    Route::get('ldisposisi', [\App\Http\Controllers\RelDisposisiController::class, 'index'])
+        ->name('ldisposisi.index');
+    Route::get('ldisposisi/print', [\App\Http\Controllers\RelDisposisiController::class, 'print'])
+        ->name('ldisposisi.print');
 
     Route::get('surat', [\App\Http\Controllers\SuratMasukController::class, 'index'])
         ->name('surat.index');
