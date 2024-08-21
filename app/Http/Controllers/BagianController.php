@@ -15,7 +15,8 @@ class BagianController extends Controller
      */
     public function index()
     {
-        return view('pages.bagian.index');
+        $bagians = Bagian::all();
+        return view('pages.bagian.index', ['bagians' => $bagians]);
     }
 
     /**
@@ -36,7 +37,12 @@ class BagianController extends Controller
      */
     public function store(StoreBagianRequest $request)
     {
-        //
+        try {
+            Bagian::create($request->validated());
+            return response()->json(['message' => 'Bagian created successfully.'], 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to create Bagian.'], 500);
+        }
     }
 
     /**
@@ -47,7 +53,7 @@ class BagianController extends Controller
      */
     public function show(Bagian $bagian)
     {
-        //
+        return response()->json($bagian);
     }
 
     /**
@@ -70,7 +76,12 @@ class BagianController extends Controller
      */
     public function update(UpdateBagianRequest $request, Bagian $bagian)
     {
-        //
+        try {
+            $bagian->update($request->validated());
+            return response()->json(['message' => 'Bagian updated successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to update Bagian.'], 500);
+        }
     }
 
     /**
@@ -81,6 +92,11 @@ class BagianController extends Controller
      */
     public function destroy(Bagian $bagian)
     {
-        //
+        try {
+            $bagian->delete();
+            return response()->json(['message' => 'Bagian deleted successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete Bagian.'], 500);
+        }
     }
 }

@@ -1,82 +1,149 @@
 @extends('layout.main')
 
 @section('content')
-<h4 class="py-3 mb-4">
-    <span class="text-muted fw-light">DataTables /</span> Basic
-</h4>
+    <h4 class="py-3 mb-4">
+        <span class="text-muted fw-light">Master /</span> Bagian
+    </h4>
 
-<!-- DataTable with Buttons -->
-<div class="card">
-    <div class="card-datatable table-responsive">
-        <table class="datatables-basic table border-top">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Jabatan</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-</div>
-<!-- Modal to add new record -->
-<div class="offcanvas offcanvas-end" id="add-new-record">
-    <div class="offcanvas-header border-bottom">
-        <h5 class="offcanvas-title" id="exampleModalLabel">New Record</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body flex-grow-1">
-        <form class="add-new-record pt-0 row g-2" id="form-add-new-record" onsubmit="return false">
-            <div class="col-sm-12">
-                <label class="form-label" for="basicFullname">Full Name</label>
-                <div class="input-group input-group-merge">
-                    <span id="basicFullname2" class="input-group-text"><i class="bx bx-user"></i></span>
-                    <input type="text" id="basicFullname" class="form-control dt-full-name" name="basicFullname"
-                        placeholder="John Doe" aria-label="John Doe" aria-describedby="basicFullname2" />
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <label class="form-label" for="basicPost">Post</label>
-                <div class="input-group input-group-merge">
-                    <span id="basicPost2" class="input-group-text"><i class='bx bxs-briefcase'></i></span>
-                    <input type="text" id="basicPost" name="basicPost" class="form-control dt-post"
-                        placeholder="Web Developer" aria-label="Web Developer" aria-describedby="basicPost2" />
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <label class="form-label" for="basicEmail">Email</label>
-                <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-envelope"></i></span>
-                    <input type="text" id="basicEmail" name="basicEmail" class="form-control dt-email"
-                        placeholder="john.doe@example.com" aria-label="john.doe@example.com" />
-                </div>
-                <div class="form-text">
-                    You can use letters, numbers & periods
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <label class="form-label" for="basicDate">Joining Date</label>
-                <div class="input-group input-group-merge">
-                    <span id="basicDate2" class="input-group-text"><i class='bx bx-calendar'></i></span>
-                    <input type="text" class="form-control dt-date" id="basicDate" name="basicDate"
-                        aria-describedby="basicDate2" placeholder="MM/DD/YYYY" aria-label="MM/DD/YYYY" />
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <label class="form-label" for="basicSalary">Salary</label>
-                <div class="input-group input-group-merge">
-                    <span id="basicSalary2" class="input-group-text"><i class='bx bx-dollar'></i></span>
-                    <input type="number" id="basicSalary" name="basicSalary" class="form-control dt-salary"
-                        placeholder="12000" aria-label="12000" aria-describedby="basicSalary2" />
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Submit</button>
-                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">Cancel</button>
-            </div>
-        </form>
 
+    <!-- Add New Record Button -->
+    <div class="mb-3">
+        <button class="btn btn-primary" id="add-new-data">
+            Add New Bagian
+        </button>
     </div>
-</div>
-<!--/ DataTable with Buttons -->
+
+    <!-- DataTable with Buttons -->
+    <div class="card">
+        <div class="card-datatable table-responsive">
+            <table id="table" class="datatables-basic table table-bordered border-top">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">#</th>
+                        <th style="width: 50px;">Id</th>
+                        <th>Bagian</th>
+                        <th style="width: 200px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                        $i = 1;
+                    @endphp
+                    @foreach ($bagians as $bagian)
+                        <tr>
+                            <td>{{ $i }}</td>
+                            <td>{{ $bagian->id_bagian }}</td>
+                            <td>{{ $bagian->nama_bagian }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm btn-edit"
+                                    data-id="{{ $bagian->id_bagian }}" data-nama-bagian="{{ $bagian->nama_bagian }}">
+                                    <i class="bx bx-edit"></i>
+                                </button>
+                                <form action="{{ route('bagian.destroy', $bagian->id_bagian) }}" method="POST"
+                                    style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger btn-sm btn-delete"
+                                        data-id="{{ $bagian->id_bagian }}">
+                                        <i class="bx bx-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        @php
+                            $i++;
+                        @endphp
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div class="modal fade" id="bagian-modal" tabindex="-1" aria-labelledby="bagian-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bagian-modal-label">Add/Edit Bagian</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="bagian-form">
+                        @csrf
+                        <input type="hidden" id="id_bagian" name="id_bagian">
+                        <div class="mb-3">
+                            <label for="nama_bagian" class="form-label">Nama Bagian</label>
+                            <input type="text" id="nama_bagian" name="nama_bagian"
+                                class="form-control @error('nama_bagian') is-invalid @enderror" required>
+                            @error('nama_bagian')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+
+@push('script')
+    <script>
+        $(document).ready(function() {
+            // Handle Add New Bagian button click
+            $('#add-new-data').click(function() {
+                $('#bagian-modal-label').text('Add New Bagian');
+                $('#bagian-form').attr('action', '{{ route('bagian.store') }}');
+                $('#id_bagian').val('');
+                $('#nama_bagian').val('');
+                $('#bagian-modal').modal('show'); // Open the modal
+            });
+
+            // Handle Edit button click
+            $('.btn-edit').click(function() {
+                var id = $(this).data('id');
+
+                $.ajax({
+                    url: '{{ url('bagian') }}/' + id,
+                    method: 'GET',
+                    success: function(response) {
+                        $('#bagian-modal-label').text('Edit Bagian');
+                        $('#bagian-form').attr('action', '{{ url('bagian') }}/' + id);
+                        $('#id_bagian').val(id);
+                        $('#nama_bagian').val(response.nama_bagian);
+                        $('#bagian-modal').modal('show'); // Open the modal
+                    }
+                });
+            });
+
+            // Handle form submit for both add and edit
+            $('#bagian-form').submit(function(e) {
+                e.preventDefault();
+                var url = $(this).attr('action');
+                var method = ($('#id_bagian').val() === '') ? 'POST' : 'PUT';
+
+                $.ajax({
+                    url: url,
+                    method: method,
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $('#bagian-modal').modal('hide');
+                        Swal.fire({
+                            title: 'Success!',
+                            text: response.message,
+                            icon: 'success',
+                            confirmButtonColor: '#696cff'
+                        }).then(() => {
+                            // Arahkan kembali ke halaman utama atau reload data
+                            window.location
+                                .reload(); // Reload halaman untuk memperbarui tampilan
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

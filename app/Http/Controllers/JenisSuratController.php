@@ -15,7 +15,8 @@ class JenisSuratController extends Controller
      */
     public function index()
     {
-        return view('pages.jenissurat.index');
+        $jenissurats = JenisSurat::all();
+        return view('pages.jenissurat.index', ['jenissurats' => $jenissurats]);
     }
 
     /**
@@ -36,7 +37,12 @@ class JenisSuratController extends Controller
      */
     public function store(StoreJenisSuratRequest $request)
     {
-        //
+        try {
+            JenisSurat::create($request->validated());
+            return response()->json(['message' => 'Jenis Surat created successfully.'], 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to create Jenis Surat.'], 500);
+        }
     }
 
     /**
@@ -45,9 +51,10 @@ class JenisSuratController extends Controller
      * @param  \App\Models\JenisSurat  $jenisSurat
      * @return \Illuminate\Http\Response
      */
-    public function show(JenisSurat $jenisSurat)
+    public function show($jenisSurat)
     {
-        //
+        $jenisSurat = JenisSurat::findOrFail($jenisSurat);
+        return response()->json($jenisSurat);
     }
 
     /**
@@ -68,9 +75,15 @@ class JenisSuratController extends Controller
      * @param  \App\Models\JenisSurat  $jenisSurat
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateJenisSuratRequest $request, JenisSurat $jenisSurat)
+    public function update(UpdateJenisSuratRequest $request, $id)
     {
-        //
+        try {
+            $jenisSurat = JenisSurat::findOrFail($id);
+            $jenisSurat->update($request->validated());
+            return response()->json(['message' => 'jenis Surat updated successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to update jenis Surat.'], 500);
+        }
     }
 
     /**
@@ -79,8 +92,14 @@ class JenisSuratController extends Controller
      * @param  \App\Models\JenisSurat  $jenisSurat
      * @return \Illuminate\Http\Response
      */
-    public function destroy(JenisSurat $jenisSurat)
+    public function destroy($id)
     {
-        //
+        try {
+            $jenisSurat = JenisSurat::findOrFail($id);
+            $jenisSurat->delete();
+            return response()->json(['message' => 'jenis Surat deleted successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete jenis Surat.'], 500);
+        }
     }
 }
