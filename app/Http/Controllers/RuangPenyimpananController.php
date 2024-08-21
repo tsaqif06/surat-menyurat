@@ -15,7 +15,8 @@ class RuangPenyimpananController extends Controller
      */
     public function index()
     {
-        return view('pages.ruang.index');
+        $ruangpenyimpanans = RuangPenyimpanan::all();
+        return view('pages.ruang.index', ['ruangpenyimpanans' => $ruangpenyimpanans]);
     }
 
     /**
@@ -36,7 +37,12 @@ class RuangPenyimpananController extends Controller
      */
     public function store(StoreRuangPenyimpananRequest $request)
     {
-        //
+        try {
+            RuangPenyimpanan::create($request->validated());
+            return response()->json(['message' => 'Ruang Penyimpanan created successfully.'], 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to create Ruang Penyimpanan.'], 500);
+        }
     }
 
     /**
@@ -45,9 +51,10 @@ class RuangPenyimpananController extends Controller
      * @param  \App\Models\RuangPenyimpanan  $ruangPenyimpanan
      * @return \Illuminate\Http\Response
      */
-    public function show(RuangPenyimpanan $ruangPenyimpanan)
+    public function show($ruangPenyimpanan)
     {
-        //
+        $ruangPenyimpanan = RuangPenyimpanan::findOrFail($ruangPenyimpanan);
+        return response()->json($ruangPenyimpanan);
     }
 
     /**
@@ -68,9 +75,15 @@ class RuangPenyimpananController extends Controller
      * @param  \App\Models\RuangPenyimpanan  $ruangPenyimpanan
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRuangPenyimpananRequest $request, RuangPenyimpanan $ruangPenyimpanan)
+    public function update(UpdateRuangPenyimpananRequest $request, $id)
     {
-        //
+        try {
+            $ruangPenyimpanan = RuangPenyimpanan::findOrFail($id);
+            $ruangPenyimpanan->update($request->validated());
+            return response()->json(['message' => 'Ruang Penyimpanan updated successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to update Ruang Penyimpanan.'], 500);
+        }
     }
 
     /**
@@ -79,8 +92,14 @@ class RuangPenyimpananController extends Controller
      * @param  \App\Models\RuangPenyimpanan  $ruangPenyimpanan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(RuangPenyimpanan $ruangPenyimpanan)
+    public function destroy($id)
     {
-        //
+        try {
+            $ruangPenyimpanan = RuangPenyimpanan::findOrFail($id);
+            $ruangPenyimpanan->delete();
+            return response()->json(['message' => 'Ruang Penyimpanan deleted successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete Ruang Penyimpanan.'], 500);
+        }
     }
 }

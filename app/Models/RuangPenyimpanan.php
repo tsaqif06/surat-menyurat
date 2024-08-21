@@ -16,14 +16,4 @@ class RuangPenyimpanan extends Model
     protected $fillable = [
         'nama_ruang',
     ];
-
-    public function suratMasuk()
-    {
-        return $this->hasMany(SuratMasuk::class, 'id_ruang_penyimpanan');
-    }
-
-    public function suratKeluar()
-    {
-        return $this->hasMany(SuratKeluar::class, 'id_ruang_penyimpanan');
-    }
 }

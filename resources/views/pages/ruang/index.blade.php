@@ -1,82 +1,148 @@
 @extends('layout.main')
 
 @section('content')
-<h4 class="py-3 mb-4">
-    <span class="text-muted fw-light">DataTables /</span> Basic
-</h4>
+    <h4 class="py-3 mb-4">
+        <span class="text-muted fw-light">Master /</span> Ruang Penyimpanan
+    </h4>
 
-<!-- DataTable with Buttons -->
-<div class="card">
-    <div class="card-datatable table-responsive">
-        <table class="datatables-basic table border-top">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Jabatan</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-        </table>
+    <!-- Add New Record Button -->
+    <div class="mb-3">
+        <button class="btn btn-primary" id="add-new-data">
+            Add New Ruang Penyimpanan
+        </button>
     </div>
-</div>
-<!-- Modal to add new record -->
-<div class="offcanvas offcanvas-end" id="add-new-record">
-    <div class="offcanvas-header border-bottom">
-        <h5 class="offcanvas-title" id="exampleModalLabel">New Record</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body flex-grow-1">
-        <form class="add-new-record pt-0 row g-2" id="form-add-new-record" onsubmit="return false">
-            <div class="col-sm-12">
-                <label class="form-label" for="basicFullname">Full Name</label>
-                <div class="input-group input-group-merge">
-                    <span id="basicFullname2" class="input-group-text"><i class="bx bx-user"></i></span>
-                    <input type="text" id="basicFullname" class="form-control dt-full-name" name="basicFullname"
-                        placeholder="John Doe" aria-label="John Doe" aria-describedby="basicFullname2" />
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <label class="form-label" for="basicPost">Post</label>
-                <div class="input-group input-group-merge">
-                    <span id="basicPost2" class="input-group-text"><i class='bx bxs-briefcase'></i></span>
-                    <input type="text" id="basicPost" name="basicPost" class="form-control dt-post"
-                        placeholder="Web Developer" aria-label="Web Developer" aria-describedby="basicPost2" />
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <label class="form-label" for="basicEmail">Email</label>
-                <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-envelope"></i></span>
-                    <input type="text" id="basicEmail" name="basicEmail" class="form-control dt-email"
-                        placeholder="john.doe@example.com" aria-label="john.doe@example.com" />
-                </div>
-                <div class="form-text">
-                    You can use letters, numbers & periods
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <label class="form-label" for="basicDate">Joining Date</label>
-                <div class="input-group input-group-merge">
-                    <span id="basicDate2" class="input-group-text"><i class='bx bx-calendar'></i></span>
-                    <input type="text" class="form-control dt-date" id="basicDate" name="basicDate"
-                        aria-describedby="basicDate2" placeholder="MM/DD/YYYY" aria-label="MM/DD/YYYY" />
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <label class="form-label" for="basicSalary">Salary</label>
-                <div class="input-group input-group-merge">
-                    <span id="basicSalary2" class="input-group-text"><i class='bx bx-dollar'></i></span>
-                    <input type="number" id="basicSalary" name="basicSalary" class="form-control dt-salary"
-                        placeholder="12000" aria-label="12000" aria-describedby="basicSalary2" />
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Submit</button>
-                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">Cancel</button>
-            </div>
-        </form>
 
+    <!-- DataTable with Buttons -->
+    <div class="card">
+        <div class="card-datatable table-responsive">
+            <table id="table" class="datatables-basic table table-bordered border-top">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">#</th>
+                        <th style="width: 50px;">Id</th>
+                        <th>Ruang Penyimpanan</th>
+                        <th style="width: 200px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                        $i = 1;
+                    @endphp
+                    @foreach ($ruangpenyimpanans as $ruangpenyimpanan)
+                        <tr>
+                            <td>{{ $i }}</td>
+                            <td>{{ $ruangpenyimpanan->id_ruang_penyimpanan }}</td>
+                            <td>{{ $ruangpenyimpanan->nama_ruang }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm btn-edit"
+                                    data-id="{{ $ruangpenyimpanan->id_ruang_penyimpanan }}" data-nama-ruangpenyimpanan="{{ $ruangpenyimpanan->nama_ruang }}">
+                                    <i class="bx bx-edit"></i>
+                                </button>
+                                <form action="{{ route('ruang.destroy', $ruangpenyimpanan->id_ruang_penyimpanan) }}" method="POST"
+                                    style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger btn-sm btn-delete"
+                                        data-id="{{ $ruangpenyimpanan->id_ruang_penyimpanan }}">
+                                        <i class="bx bx-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        @php
+                            $i++;
+                        @endphp
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-<!--/ DataTable with Buttons -->
+
+     <!-- Modal Structure -->
+     <div class="modal fade" id="ruangpenyimpanan-modal" tabindex="-1" aria-labelledby="ruangpenyimpanan-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ruangpenyimpanan-modal-label">Add/Edit Ruang Penyimpanan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="ruangpenyimpanan-form">
+                        @csrf
+                        <input type="hidden" id="id_ruang_penyimpanan" name="id_ruang_penyimpanan">
+                        <div class="mb-3">
+                            <label for="nama_ruang" class="form-label">Nama Ruang Penyimpanan</label>
+                            <input type="text" id="nama_ruang" name="nama_ruang"
+                                class="form-control @error('nama_ruang') is-invalid @enderror" required>
+                            @error('nama_ruang')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+
+@push('script')
+    <script>
+        $(document).ready(function() {
+            // Handle Add New ruangpenyimpanan button click
+            $('#add-new-data').click(function() {
+                $('#ruangpenyimpanan-modal-label').text('Add New Ruang Penyimpanan');
+                $('#ruangpenyimpanan-form').attr('action', '{{ route('ruang.store') }}');
+                $('#id_ruang_penyimpanan').val('');
+                $('#nama_ruang').val('');
+                $('#ruangpenyimpanan-modal').modal('show'); // Open the modal
+            });
+
+            // Handle Edit button click
+            $('.btn-edit').click(function() {
+                var id = $(this).data('id');
+
+                $.ajax({
+                    url: '{{ url('ruang') }}/' + id,
+                    method: 'GET',
+                    success: function(response) {
+                        $('#ruangpenyimpanan-modal-label').text('Edit Ruang Penyimpanan');
+                        $('#ruangpenyimpanan-form').attr('action', '{{ url('ruang') }}/' + id);
+                        $('#id_ruang_penyimpanan').val(id);
+                        $('#nama_ruang').val(response.nama_ruang);
+                        $('#ruangpenyimpanan-modal').modal('show'); // Open the modal
+                    }
+                });
+            });
+
+            // Handle form submit for both add and edit
+            $('#ruangpenyimpanan-form').submit(function(e) {
+                e.preventDefault();
+                var url = $(this).attr('action');
+                var method = ($('#id_ruang_penyimpanan').val() === '') ? 'POST' : 'PUT';
+
+                $.ajax({
+                    url: url,
+                    method: method,
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $('#ruangpenyimpanan-modal').modal('hide');
+                        Swal.fire({
+                            title: 'Success!',
+                            text: response.message,
+                            icon: 'success',
+                            confirmButtonColor: '#696cff'
+                        }).then(() => {
+                            // Arahkan kembali ke halaman utama atau reload data
+                            window.location
+                                .reload(); // Reload halaman untuk memperbarui tampilan
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

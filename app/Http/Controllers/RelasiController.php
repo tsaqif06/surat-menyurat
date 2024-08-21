@@ -15,7 +15,8 @@ class RelasiController extends Controller
      */
     public function index()
     {
-        return view('pages.relasi.index');
+        $relasis = Relasi::all();
+        return view('pages.relasi.index', ['relasis' => $relasis]);
     }
 
     /**
@@ -36,7 +37,12 @@ class RelasiController extends Controller
      */
     public function store(StoreRelasiRequest $request)
     {
-        //
+        try {
+            Relasi::create($request->validated());
+            return response()->json(['message' => 'Relasi created successfully.'], 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to create Relasi.'], 500);
+        }
     }
 
     /**
@@ -47,7 +53,7 @@ class RelasiController extends Controller
      */
     public function show(Relasi $relasi)
     {
-        //
+        return response()->json($relasi);
     }
 
     /**
@@ -70,7 +76,12 @@ class RelasiController extends Controller
      */
     public function update(UpdateRelasiRequest $request, Relasi $relasi)
     {
-        //
+        try {
+            $relasi->update($request->validated());
+            return response()->json(['message' => 'Relasi updated successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to update Relasi.'], 500);
+        }
     }
 
     /**
@@ -81,6 +92,11 @@ class RelasiController extends Controller
      */
     public function destroy(Relasi $relasi)
     {
-        //
+        try {
+            $relasi->delete();
+            return response()->json(['message' => 'Relasi deleted successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete Relasi.'], 500);
+        }
     }
 }

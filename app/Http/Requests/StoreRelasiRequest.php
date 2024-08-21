@@ -13,7 +13,7 @@ class StoreRelasiRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class StoreRelasiRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+           'nama_relasi' => 'required|string|max:50',
         ];
     }
 }

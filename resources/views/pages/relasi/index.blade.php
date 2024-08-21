@@ -1,82 +1,147 @@
 @extends('layout.main')
 
 @section('content')
-<h4 class="py-3 mb-4">
-    <span class="text-muted fw-light">DataTables /</span> Basic
-</h4>
+    <h4 class="py-3 mb-4">
+        <span class="text-muted fw-light">DataTables /</span> Basic
+    </h4>
 
-<!-- DataTable with Buttons -->
-<div class="card">
-    <div class="card-datatable table-responsive">
-        <table class="datatables-basic table border-top">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Jabatan</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-        </table>
+    <!-- Add New Record Button -->
+    <div class="mb-3">
+        <button class="btn btn-primary" id="add-new-data">
+            Add New Relasi
+        </button>
     </div>
-</div>
-<!-- Modal to add new record -->
-<div class="offcanvas offcanvas-end" id="add-new-record">
-    <div class="offcanvas-header border-bottom">
-        <h5 class="offcanvas-title" id="exampleModalLabel">New Record</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body flex-grow-1">
-        <form class="add-new-record pt-0 row g-2" id="form-add-new-record" onsubmit="return false">
-            <div class="col-sm-12">
-                <label class="form-label" for="basicFullname">Full Name</label>
-                <div class="input-group input-group-merge">
-                    <span id="basicFullname2" class="input-group-text"><i class="bx bx-user"></i></span>
-                    <input type="text" id="basicFullname" class="form-control dt-full-name" name="basicFullname"
-                        placeholder="John Doe" aria-label="John Doe" aria-describedby="basicFullname2" />
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <label class="form-label" for="basicPost">Post</label>
-                <div class="input-group input-group-merge">
-                    <span id="basicPost2" class="input-group-text"><i class='bx bxs-briefcase'></i></span>
-                    <input type="text" id="basicPost" name="basicPost" class="form-control dt-post"
-                        placeholder="Web Developer" aria-label="Web Developer" aria-describedby="basicPost2" />
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <label class="form-label" for="basicEmail">Email</label>
-                <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-envelope"></i></span>
-                    <input type="text" id="basicEmail" name="basicEmail" class="form-control dt-email"
-                        placeholder="john.doe@example.com" aria-label="john.doe@example.com" />
-                </div>
-                <div class="form-text">
-                    You can use letters, numbers & periods
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <label class="form-label" for="basicDate">Joining Date</label>
-                <div class="input-group input-group-merge">
-                    <span id="basicDate2" class="input-group-text"><i class='bx bx-calendar'></i></span>
-                    <input type="text" class="form-control dt-date" id="basicDate" name="basicDate"
-                        aria-describedby="basicDate2" placeholder="MM/DD/YYYY" aria-label="MM/DD/YYYY" />
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <label class="form-label" for="basicSalary">Salary</label>
-                <div class="input-group input-group-merge">
-                    <span id="basicSalary2" class="input-group-text"><i class='bx bx-dollar'></i></span>
-                    <input type="number" id="basicSalary" name="basicSalary" class="form-control dt-salary"
-                        placeholder="12000" aria-label="12000" aria-describedby="basicSalary2" />
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Submit</button>
-                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">Cancel</button>
-            </div>
-        </form>
 
-    </div>
-</div>
-<!--/ DataTable with Buttons -->
-@endsection
+    <!-- DataTable with Buttons -->
+    <div class="card">
+        <div class="card-datatable table-responsive">
+            <table id="table" class="datatables-basic table table-bordered border-top">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">#</th>
+                        <th style="width: 50px;">Id</th>
+                        <th>Relasi</th>
+                        <th style="width: 200px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                        $i = 1;
+                    @endphp
+                    @foreach ($relasis as $relasi)
+                        <tr>
+                            <td>{{ $i }}</td>
+                            <td>{{ $relasi->id_relasi }}</td>
+                            <td>{{ $relasi->nama_relasi }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm btn-edit"
+                                    data-id="{{ $relasi->id_relasi }}" data-nama-relasi="{{ $relasi->nama_relasi }}">
+                                    <i class="bx bx-edit"></i>
+                                </button>
+                                <form action="{{ route('relasi.destroy', $relasi->id_relasi) }}" method="POST"
+                                    style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger btn-sm btn-delete"
+                                        data-id="{{ $relasi->id_relasi }}">
+                                        <i class="bx bx-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        @php
+                            $i++;
+                        @endphp
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal Structure -->
+        <div class="modal fade" id="relasi-modal" tabindex="-1" aria-labelledby="relasi-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="relasi-modal-label">Add/Edit Relasi</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="relasi-form">
+                            @csrf
+                            <input type="hidden" id="id_relasi" name="id_relasi">
+                            <div class="mb-3">
+                                <label for="nama_relasi" class="form-label">Nama Relasi</label>
+                                <input type="text" id="nama_relasi" name="nama_relasi"
+                                    class="form-control @error('nama_relasi') is-invalid @enderror" required>
+                                @error('nama_relasi')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endsection
+
+    @push('script')
+    <script>
+        $(document).ready(function() {
+            // Handle Add New Relasi button click
+            $('#add-new-data').click(function() {
+                $('#relasi-modal-label').text('Add New Relasi');
+                $('#relasi-form').attr('action', '{{ route('relasi.store') }}');
+                $('#id_relasi').val('');
+                $('#nama_relasi').val('');
+                $('#relasi-modal').modal('show'); // Open the modal
+            });
+
+            // Handle Edit button click
+            $('.btn-edit').click(function() {
+                var id = $(this).data('id');
+
+                $.ajax({
+                    url: '{{ url('relasi') }}/' + id,
+                    method: 'GET',
+                    success: function(response) {
+                        $('#relasi-modal-label').text('Edit Relasi');
+                        $('#relasi-form').attr('action', '{{ url('relasi') }}/' + id);
+                        $('#id_relasi').val(id);
+                        $('#nama_relasi').val(response.nama_relasi);
+                        $('#relasi-modal').modal('show'); // Open the modal
+                    }
+                });
+            });
+
+            // Handle form submit for both add and edit
+            $('#relasi-form').submit(function(e) {
+                e.preventDefault();
+                var url = $(this).attr('action');
+                var method = ($('#id_relasi').val() === '') ? 'POST' : 'PUT';
+
+                $.ajax({
+                    url: url,
+                    method: method,
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $('#relasi-modal').modal('hide');
+                        Swal.fire({
+                            title: 'Success!',
+                            text: response.message,
+                            icon: 'success',
+                            confirmButtonColor: '#696cff'
+                        }).then(() => {
+                            // Arahkan kembali ke halaman utama atau reload data
+                            window.location
+                                .reload(); // Reload halaman untuk memperbarui tampilan
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
