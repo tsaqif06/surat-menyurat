@@ -98,27 +98,9 @@
             </ul>
         </li>
         <li class="menu-item">
-            <a href="{{ route('disposisi.index') }}" class="menu-link">
+            <a href="{{ route('ldisposisi.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-grid"></i>
-                <div class="text-truncate" data-i18n="Kanban">Disposisi SM</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="{{ route('approve.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-grid"></i>
-                <div class="text-truncate" data-i18n="Kanban">Persetujuan</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="app-kanban.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-grid"></i>
-                <div class="text-truncate" data-i18n="Kanban">Arsip</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="app-kanban.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-grid"></i>
-                <div class="text-truncate" data-i18n="Kanban">Laporan</div>
+                <div class="text-truncate" data-i18n="Kanban">Laporan Disposisi</div>
             </a>
         </li>
     </ul>
