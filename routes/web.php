@@ -27,6 +27,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('ruang', \App\Http\Controllers\RuangPenyimpananController::class);
 
     Route::resource('suratmasuk', \App\Http\Controllers\SuratMasukController::class);
+    Route::post('suratmasuk/uploadfile', [\App\Http\Controllers\SuratMasukController::class, 'uploadFile'])
+        ->name('suratmasuk.uploadfile');
     Route::get('pdisposisi', [\App\Http\Controllers\SuratMasukController::class, 'persetujuan'])
         ->name('pdisposisi.index');
     Route::post('pdisposisi/setuju/{id}', [\App\Http\Controllers\SuratMasukController::class, 'setuju'])

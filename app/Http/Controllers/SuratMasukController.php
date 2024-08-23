@@ -8,6 +8,7 @@ use App\Models\JenisSurat;
 use App\Models\SuratMasuk;
 use Illuminate\Http\Request;
 use App\Models\RuangPenyimpanan;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreSuratMasukRequest;
 use App\Http\Requests\UpdateSuratMasukRequest;
 
@@ -61,6 +62,26 @@ class SuratMasukController extends Controller
             return response()->json(['error' => 'Gagal menolak surat.'], 500);
         }
     }
+
+    public function uploadFile(Request $request)
+    {
+        try {
+            if ($request->hasFile('file_surat')) {
+                $file = $request->file('file_surat');
+                // Simpan file ke storage public suratmasuk
+                $filePath = $file->store('public/suratmasuk'); // simpan di storage/app/public/suratmasuk
+                $fileUrl = Storage::url($filePath); // Mendapatkan URL yang bisa diakses publik
+
+                return response()->json(['message' => 'File uploaded successfully.', 'file_url' => $fileUrl]);
+            } else {
+                return response()->json(['error' => 'No file uploaded.'], 400);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error uploading file: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to upload file.'], 500);
+        }
+    }
+
 
 
     /**
@@ -133,27 +154,36 @@ class SuratMasukController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->input());
         try {
-            // Log::info($request->all());
-
-            // Log::info('Update Surat Masuk request data:', $request->all());
+            // Temukan record Surat Masuk yang akan di-update
             $suratMasuk = SuratMasuk::findOrFail($id);
-    
+
+            // Jika ada file baru yang diunggah
             if ($request->hasFile('file_surat')) {
                 $file = $request->file('file_surat');
+
+                // Simpan file ke dalam storage
                 $filePath = $file->store('surat_masuk_files');
-                Log::info('File uploaded to: ' . $filePath);
+
+                // Hapus file lama jika ada
+                if ($suratMasuk->file_surat && \Storage::exists($suratMasuk->file_surat)) {
+                    \Storage::delete($suratMasuk->file_surat);
+                }
+
+                // Update path file baru ke database
                 $suratMasuk->file_surat = $filePath;
             }
-            
-    
-            // Update other fields
+
+            // Update fields lainnya
             $suratMasuk->update($request->except(['file_surat']));
-    
+
+            // Berikan respon sukses
             return response()->json(['message' => 'Surat Masuk updated successfully.']);
         } catch (\Exception $e) {
+            // Logging error untuk debugging
             Log::error('Error updating Surat Masuk: ' . $e->getMessage());
+
+            // Berikan respon error kepada pengguna
             return response()->json(['error' => 'Failed to update Surat Masuk.'], 500);
         }
     }
