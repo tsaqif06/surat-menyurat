@@ -55,17 +55,17 @@
                 <div class="text-truncate" data-i18n="Kanban">Ruang Penyimpanan</div>
             </a>
         </li>
-
-        <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">Menu Utama</span>
-        </li>
-        
         <li class="menu-item">
             <a href="{{ route('relasi.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-grid"></i>
                 <div class="text-truncate" data-i18n="Kanban">Perusahaan/Relasi</div>
             </a>
         </li>
+
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Menu Utama</span>
+        </li>
+
         <li class="menu-item">
             <a href="{{ route('suratmasuk.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-grid"></i>

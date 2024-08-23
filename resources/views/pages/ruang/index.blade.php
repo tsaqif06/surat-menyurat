@@ -52,6 +52,7 @@
                                         </button>
                                     </form>
                                 </td>
+                            @endif
                         </tr>
                         @php
                             $i++;
