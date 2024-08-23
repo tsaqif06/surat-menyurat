@@ -27,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('jenis', \App\Http\Controllers\JenisSuratController::class);
     Route::resource('relasi', \App\Http\Controllers\RelasiController::class);
     Route::resource('ruang', \App\Http\Controllers\RuangPenyimpananController::class);
+    Route::resource('suratmasuk', \App\Http\Controllers\SuratMasukController::class);
     // Route::get('bagian', [\App\Http\Controllers\BagianController::class, 'index'])
     //     ->name('bagian.index');
     // Route::get('jenis', [\App\Http\Controllers\JenisSuratController::class, 'index'])
@@ -35,8 +36,10 @@ Route::middleware(['auth'])->group(function () {
     //     ->name('ruang.index');
     // Route::get('relasi', [\App\Http\Controllers\RelasiController::class, 'index'])
     //     ->name('relasi.index');
-    Route::get('surat', [\App\Http\Controllers\SuratMasukController::class, 'index'])
-        ->name('surat.index');
+    // Route::get('suratmasuk', [\App\Http\Controllers\SuratMasukController::class, 'index'])
+    //     ->name('suratmasuk.index');
+    Route::get('suratkeluar', [\App\Http\Controllers\SuratKeluarController::class, 'index'])
+        ->name('suratkeluar.index');
     Route::get('disposisi', [\App\Http\Controllers\DisposisiController::class, 'index'])
         ->name('disposisi.index');
     Route::get('approve', [\App\Http\Controllers\ApproveController::class, 'index'])
