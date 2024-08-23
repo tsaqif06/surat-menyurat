@@ -65,34 +65,39 @@
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Menu Utama</span>
         </li>
-
         <li class="menu-item">
-            <a href="{{ route('suratmasuk.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-grid"></i>
-                <div class="text-truncate" data-i18n="Kanban">Surat Masuk</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="{{ route('suratkeluar.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-grid"></i>
-                <div class="text-truncate" data-i18n="Kanban">Surat Keluar</div>
-            </a>
-        </li>
-        <li class="menu-item {{ \Illuminate\Support\Facades\Route::is('transaction.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-mail-send"></i>
-                <div data-i18n="Persetujuan">Persetujuan</div>
+                <div data-i18n="Persetujuan">Transaksi Surat</div>
             </a>
             <ul class="menu-sub">
-                <li
-                    class="menu-item {{ \Illuminate\Support\Facades\Route::is('transaction.incoming.*') || \Illuminate\Support\Facades\Route::is('transaction.disposition.*') ? 'active' : '' }}">
+                <li class="menu-item">
+                    <a href="{{ route('suratmasuk.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-grid"></i>
+                        <div class="text-truncate" data-i18n="Kanban">Surat Masuk</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('suratkeluar.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-grid"></i>
+                        <div class="text-truncate" data-i18n="Kanban">Surat Keluar</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-mail-send"></i>
+                <div data-i18n="Persetujuan">Persetujuan Surat</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
                     <a href="{{ route('pdisposisi.index') }}" class="menu-link">
                         <div data-i18n="{{ __('menu.transaction.incoming_letter') }}">
                             {{ __('menu.transaction.incoming_letter') }}</div>
                     </a>
                 </li>
-                <li
-                    class="menu-item {{ \Illuminate\Support\Facades\Route::is('transaction.outgoing.*') ? 'active' : '' }}">
+                <li class="menu-item">
                     <a href="{{ route('approve.index') }}" class="menu-link">
                         <div data-i18n="{{ __('menu.transaction.outgoing_letter') }}">
                             {{ __('menu.transaction.outgoing_letter') }}</div>
