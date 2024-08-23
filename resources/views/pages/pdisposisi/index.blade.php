@@ -24,7 +24,9 @@
                         <th>Judul</th>
                         <th>Tanggal Disposisi</th>
                         <th style="width: 50px">Status</th>
-                        <th style="width: 200px;">Action</th>
+                        @if (auth()->user()->id_jabatan == 2)
+                            <th style="width: 200px;">Action</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -47,22 +49,24 @@
                                     <span class="badge bg-success">Disetujui</span>
                                 @endif
                             </td>
-                            <td>
-                                @if ($suratmasuk->status_surat == 1)
-                                    <button type="button" class="btn btn-success btn-sm btn-setuju"
-                                        data-id="{{ $suratmasuk->id_surat_masuk }}">
-                                        <i class="bx bx-check"></i> Setuju
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-sm btn-tolak"
-                                        data-id="{{ $suratmasuk->id_surat_masuk }}">
-                                        <i class="bx bx-x"></i> Tidak Setuju
-                                    </button>
-                                @else
-                                    <button type="button" class="btn btn-secondary btn-sm" disabled>
-                                        <i class="bx bx-lock"></i> Tidak Ada Tindakan
-                                    </button>
-                                @endif
-                            </td>
+                            @if (auth()->user()->id_jabatan == 2)
+                                <td>
+                                    @if ($suratmasuk->status_surat == 1)
+                                        <button type="button" class="btn btn-success btn-sm btn-setuju"
+                                            data-id="{{ $suratmasuk->id_surat_masuk }}">
+                                            <i class="bx bx-check"></i> Setuju
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm btn-tolak"
+                                            data-id="{{ $suratmasuk->id_surat_masuk }}">
+                                            <i class="bx bx-x"></i> Tidak Setuju
+                                        </button>
+                                    @else
+                                        <button type="button" class="btn btn-secondary btn-sm" disabled>
+                                            <i class="bx bx-lock"></i> Tidak Ada Tindakan
+                                        </button>
+                                    @endif
+                                </td>
+                            @endif
                         </tr>
                         @php
                             $i++;
