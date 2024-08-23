@@ -20,30 +20,38 @@ Route::middleware(['auth'])->group(function () {
         ->except(['show', 'edit', 'create'])
         ->middleware(['role:admin']);
 
-    // Route::get('jabatan', [\App\Http\Controllers\JabatanController::class, 'index'])
-    //     ->name('jabatan.index');
     Route::resource('jabatan', \App\Http\Controllers\JabatanController::class);
     Route::resource('bagian', \App\Http\Controllers\BagianController::class);
     Route::resource('jenis', \App\Http\Controllers\JenisSuratController::class);
     Route::resource('relasi', \App\Http\Controllers\RelasiController::class);
     Route::resource('ruang', \App\Http\Controllers\RuangPenyimpananController::class);
+
     Route::resource('suratmasuk', \App\Http\Controllers\SuratMasukController::class);
-    // Route::get('bagian', [\App\Http\Controllers\BagianController::class, 'index'])
-    //     ->name('bagian.index');
-    // Route::get('jenis', [\App\Http\Controllers\JenisSuratController::class, 'index'])
-    //     ->name('jenis.index');
-    // Route::get('ruang', [\App\Http\Controllers\RuangPenyimpananController::class, 'index'])
-    //     ->name('ruang.index');
-    // Route::get('relasi', [\App\Http\Controllers\RelasiController::class, 'index'])
-    //     ->name('relasi.index');
+    Route::get('pdisposisi', [\App\Http\Controllers\SuratMasukController::class, 'persetujuan'])
+        ->name('pdisposisi.index');
+    Route::post('pdisposisi/setuju/{id}', [\App\Http\Controllers\SuratMasukController::class, 'setuju'])
+        ->name('pdisposisi.setuju');
+    Route::post('pdisposisi/tolak/{id}', [\App\Http\Controllers\SuratMasukController::class, 'tolak'])
+        ->name('pdisposisi.tolak');
+
+    Route::get('approve', [\App\Http\Controllers\SuratKeluarController::class, 'persetujuan'])
+        ->name('approve.index');
+    Route::post('approve/setuju/{id}', [\App\Http\Controllers\SuratKeluarController::class, 'setuju'])
+        ->name('approve.setuju');
+    Route::post('approve/tolak/{id}', [\App\Http\Controllers\SuratKeluarController::class, 'tolak'])
+        ->name('approve.tolak');
+
+    Route::get('ldisposisi', [\App\Http\Controllers\RelDisposisiController::class, 'index'])
+        ->name('ldisposisi.index');
+    Route::get('ldisposisi/print', [\App\Http\Controllers\RelDisposisiController::class, 'print'])
+        ->name('ldisposisi.print');
+
     // Route::get('suratmasuk', [\App\Http\Controllers\SuratMasukController::class, 'index'])
     //     ->name('suratmasuk.index');
     Route::get('suratkeluar', [\App\Http\Controllers\SuratKeluarController::class, 'index'])
         ->name('suratkeluar.index');
     Route::get('disposisi', [\App\Http\Controllers\DisposisiController::class, 'index'])
         ->name('disposisi.index');
-    Route::get('approve', [\App\Http\Controllers\ApproveController::class, 'index'])
-        ->name('approve.index');
 
     Route::get('profile', [\App\Http\Controllers\PageController::class, 'profile'])
         ->name('profile.show');

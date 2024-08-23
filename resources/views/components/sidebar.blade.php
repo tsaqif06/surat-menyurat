@@ -22,42 +22,43 @@
         </li>
 
         <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">{{ __('menu.header.main_menu') }}</span>
-          </li>
-          <li class="menu-item">
+            <span class="menu-header-text">Master Data</span>
+        </li>
+
+        {{--  <li class="menu-item">
             <a href="app-email.html" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-envelope"></i>
-              <div class="text-truncate" data-i18n="Email">User</div>
+                <i class="menu-icon tf-icons bx bx-envelope"></i>
+                <div class="text-truncate" data-i18n="Email">User</div>
             </a>
-          </li>
-          <li class="menu-item">
+        </li>  --}}
+        <li class="menu-item">
             <a href="{{ route('jabatan.index') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-chat"></i>
-              <div class="text-truncate" data-i18n="Chat">Jabatan</div>
+                <i class="menu-icon tf-icons bx bx-chat"></i>
+                <div class="text-truncate" data-i18n="Chat">Jabatan</div>
             </a>
-          </li>
-          <li class="menu-item">
+        </li>
+        <li class="menu-item">
             <a href="{{ route('bagian.index') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-calendar"></i>
-              <div class="text-truncate" data-i18n="Calendar">Bagian</div>
+                <i class="menu-icon tf-icons bx bx-calendar"></i>
+                <div class="text-truncate" data-i18n="Calendar">Bagian</div>
             </a>
-          </li>
-          <li class="menu-item">
+        </li>
+        <li class="menu-item">
             <a href="{{ route('jenis.index') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-grid"></i>
-              <div class="text-truncate" data-i18n="Kanban">Jenis Surat</div>
+                <i class="menu-icon tf-icons bx bx-grid"></i>
+                <div class="text-truncate" data-i18n="Kanban">Jenis Surat</div>
             </a>
-          </li>
-          <li class="menu-item">
+        </li>
+        <li class="menu-item">
             <a href="{{ route('ruang.index') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-grid"></i>
-              <div class="text-truncate" data-i18n="Kanban">Ruang Penyimpanan</div>
+                <i class="menu-icon tf-icons bx bx-grid"></i>
+                <div class="text-truncate" data-i18n="Kanban">Ruang Penyimpanan</div>
             </a>
-          </li>
-          <li class="menu-item">
+        </li>
+        <li class="menu-item">
             <a href="{{ route('relasi.index') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-grid"></i>
-              <div class="text-truncate" data-i18n="Kanban">Perusahaan/Relasi</div>
+                <i class="menu-icon tf-icons bx bx-grid"></i>
+                <div class="text-truncate" data-i18n="Kanban">Perusahaan/Relasi</div>
             </a>
           </li>
           <li class="menu-item">
@@ -71,30 +72,34 @@
               <i class="menu-icon tf-icons bx bx-grid"></i>
               <div class="text-truncate" data-i18n="Kanban">Surat Keluar</div>
             </a>
-          </li>
-          <li class="menu-item">
-            <a href="{{ route('disposisi.index') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-grid"></i>
-              <div class="text-truncate" data-i18n="Kanban">Disposisi SM</div>
+        </li>
+        <li class="menu-item {{ \Illuminate\Support\Facades\Route::is('transaction.*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-mail-send"></i>
+                <div data-i18n="Persetujuan">Persetujuan</div>
             </a>
-          </li>
-          <li class="menu-item">
-            <a href="{{ route('approve.index') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-grid"></i>
-              <div class="text-truncate" data-i18n="Kanban">Persetujuan</div>
+            <ul class="menu-sub">
+                <li
+                    class="menu-item {{ \Illuminate\Support\Facades\Route::is('transaction.incoming.*') || \Illuminate\Support\Facades\Route::is('transaction.disposition.*') ? 'active' : '' }}">
+                    <a href="{{ route('pdisposisi.index') }}" class="menu-link">
+                        <div data-i18n="{{ __('menu.transaction.incoming_letter') }}">
+                            {{ __('menu.transaction.incoming_letter') }}</div>
+                    </a>
+                </li>
+                <li
+                    class="menu-item {{ \Illuminate\Support\Facades\Route::is('transaction.outgoing.*') ? 'active' : '' }}">
+                    <a href="{{ route('approve.index') }}" class="menu-link">
+                        <div data-i18n="{{ __('menu.transaction.outgoing_letter') }}">
+                            {{ __('menu.transaction.outgoing_letter') }}</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="{{ route('ldisposisi.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-grid"></i>
+                <div class="text-truncate" data-i18n="Kanban">Laporan Disposisi</div>
             </a>
-          </li>
-          <li class="menu-item">
-            <a href="app-kanban.html" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-grid"></i>
-              <div class="text-truncate" data-i18n="Kanban">Arsip</div>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="app-kanban.html" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-grid"></i>
-              <div class="text-truncate" data-i18n="Kanban">Laporan</div>
-            </a>
-          </li>
+        </li>
     </ul>
 </aside>

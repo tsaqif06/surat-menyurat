@@ -28,6 +28,41 @@ class SuratMasukController extends Controller
         return view('pages.suratmasuk.index', ['suratmasuks' => $suratmasuks, 'relasis' => $relasis, 'bagians' => $bagians, 'ruangPenyimpanans' => $ruangPenyimpanans, 'jenisSurats' => $jenisSurats]);
     }
 
+    public function persetujuan()
+    {
+
+        $suratmasuks = SuratMasuk::whereNotNull('tanggal_disposisi')->get();
+        return view('pages.pdisposisi.index', ['suratmasuks' => $suratmasuks]);
+    }
+
+    public function setuju($id)
+    {
+        try {
+            $suratMasuk = SuratMasuk::findOrFail($id);
+            $suratMasuk->status_surat = 2;
+            $suratMasuk->save();
+
+            return response()->json(['message' => 'Surat berhasil disetujui.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal menyetujui surat.'], 500);
+        }
+    }
+
+    // Handle Tolak
+    public function tolak($id)
+    {
+        try {
+            $suratMasuk = SuratMasuk::findOrFail($id);
+            $suratMasuk->status_surat = 0;
+            $suratMasuk->save();
+
+            return response()->json(['message' => 'Surat berhasil ditolak.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal menolak surat.'], 500);
+        }
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *

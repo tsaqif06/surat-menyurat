@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\LetterType;
-use App\Helpers\GeneralHelper;
-use App\Http\Requests\UpdateConfigRequest;
-use App\Http\Requests\UpdateUserRequest;
-use App\Models\Attachment;
-use App\Models\Config;
-use App\Models\Disposition;
-use App\Models\Letter;
-use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
+use App\Models\User;
+use App\Models\Config;
+use App\Models\Letter;
+use App\Enums\LetterType;
+use App\Models\Attachment;
+use App\Models\SuratMasuk;
+use App\Models\Disposition;
+use App\Models\SuratKeluar;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+use App\Helpers\GeneralHelper;
 use JetBrains\PhpStorm\NoReturn;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UpdateConfigRequest;
 
 class PageController extends Controller
 {
@@ -28,31 +30,42 @@ class PageController extends Controller
      */
     public function index(Request $request): View
     {
-        // Dummy data
-        $todayIncomingLetter = 12;
-        $todayOutgoingLetter = 8;
-        $todayDispositionLetter = 5;
+        $months = range(1, 12); // 1 to 12 for each month
 
-        $percentageLetterTransaction = 10; // Example percentage
-        $todayLetterTransaction = $todayIncomingLetter + $todayOutgoingLetter + $todayDispositionLetter;
+        $incomingAccepted = [];
+        $incomingRejected = [];
+        $outgoingAccepted = [];
+        $outgoingRejected = [];
 
-        $percentageIncomingLetter = 15;
-        $percentageOutgoingLetter = -5;
-        $percentageDispositionLetter = 7;
+        foreach ($months as $month) {
+            // Count for SuratMasuk
+            $incomingAccepted[$month] = SuratMasuk::whereMonth('tanggal_disposisi', $month)
+                ->where('status_surat', 2) // Status 2 means accepted
+                ->count();
 
-        $activeUser = 25;
-        return view('pages.dashboard', [ 'todayIncomingLetter' => $todayIncomingLetter,
-        'todayOutgoingLetter' => $todayOutgoingLetter,
-        'todayDispositionLetter' => $todayDispositionLetter,
-        'percentageLetterTransaction' => $percentageLetterTransaction,
-        'todayLetterTransaction' => $todayLetterTransaction,
-        'percentageIncomingLetter' => $percentageIncomingLetter,
-        'percentageOutgoingLetter' => $percentageOutgoingLetter,
-        'percentageDispositionLetter' => $percentageDispositionLetter,
-        'activeUser' => $activeUser,
-        'greeting' => 'Hello, User!',
-        'currentDate' => now()->format('F j, Y'),]);
+            $incomingRejected[$month] = SuratMasuk::whereMonth('tanggal_disposisi', $month)
+                ->where('status_surat', 0) // Status 0 means rejected
+                ->count();
+
+            // Count for SuratKeluar
+            $outgoingAccepted[$month] = SuratKeluar::whereMonth('tanggal_surat_keluar', $month)
+                ->where('status_surat', 2) // Status 2 means accepted
+                ->count();
+
+            $outgoingRejected[$month] = SuratKeluar::whereMonth('tanggal_surat_keluar', $month)
+                ->where('status_surat', 0) // Status 0 means rejected
+                ->count();
+        }
+
+        return view('pages.dashboard', [
+            'incomingAccepted' => $incomingAccepted,
+            'incomingRejected' => $incomingRejected,
+            'outgoingAccepted' => $outgoingAccepted,
+            'outgoingRejected' => $outgoingRejected,
+            'months' => $months,
+        ]);
     }
+
 
     /**
      * @param Request $request
@@ -74,14 +87,14 @@ class PageController extends Controller
         try {
             $newProfile = $request->validated();
             if ($request->hasFile('profile_picture')) {
-//               DELETE OLD PICTURE
+                //               DELETE OLD PICTURE
                 $oldPicture = auth()->user()->profile_picture;
                 if (str_contains($oldPicture, '/storage/avatars/')) {
                     $url = parse_url($oldPicture, PHP_URL_PATH);
                     Storage::delete(str_replace('/storage', 'public', $url));
                 }
 
-//                UPLOAD NEW PICTURE
+                //                UPLOAD NEW PICTURE
                 $filename = time() .
                     '-' . $request->file('profile_picture')->getFilename() .
                     '.' . $request->file('profile_picture')->getClientOriginalExtension();

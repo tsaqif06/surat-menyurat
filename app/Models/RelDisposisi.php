@@ -9,7 +9,7 @@ class RelDisposisi extends Model
 {
     use HasFactory;
 
-    protected $table = 'rel_disposisi';
+    protected $table = 'rel_disposisis';
     protected $primaryKey = 'id_disposisi';
     public $timestamps = false;
 
