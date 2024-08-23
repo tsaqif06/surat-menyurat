@@ -21,7 +21,9 @@
                         <th style="width: 50px;">#</th>
                         <th style="width: 50px;">Id</th>
                         <th>Relasi</th>
-                        <th style="width: 200px;">Action</th>
+                        @if (auth()->user()->id_jabatan == 1)
+                            <th style="width: 200px;">Action</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -33,21 +35,23 @@
                             <td>{{ $i }}</td>
                             <td>{{ $relasi->id_relasi }}</td>
                             <td>{{ $relasi->nama_relasi }}</td>
-                            <td>
-                                <button type="button" class="btn btn-primary btn-sm btn-edit"
-                                    data-id="{{ $relasi->id_relasi }}" data-nama-relasi="{{ $relasi->nama_relasi }}">
-                                    <i class="bx bx-edit"></i>
-                                </button>
-                                <form action="{{ route('relasi.destroy', $relasi->id_relasi) }}" method="POST"
-                                    style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn btn-danger btn-sm btn-delete"
-                                        data-id="{{ $relasi->id_relasi }}">
-                                        <i class="bx bx-trash"></i>
+                            @if (auth()->user()->id_jabatan == 1)
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm btn-edit"
+                                        data-id="{{ $relasi->id_relasi }}" data-nama-relasi="{{ $relasi->nama_relasi }}">
+                                        <i class="bx bx-edit"></i>
                                     </button>
-                                </form>
-                            </td>
+                                    <form action="{{ route('relasi.destroy', $relasi->id_relasi) }}" method="POST"
+                                        style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-sm btn-delete"
+                                            data-id="{{ $relasi->id_relasi }}">
+                                            <i class="bx bx-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            @endif
                         </tr>
                         @php
                             $i++;
@@ -89,59 +93,59 @@
     @endsection
 
     @push('script')
-    <script>
-        $(document).ready(function() {
-            // Handle Add New Relasi button click
-            $('#add-new-data').click(function() {
-                $('#relasi-modal-label').text('Add New Relasi');
-                $('#relasi-form').attr('action', '{{ route('relasi.store') }}');
-                $('#id_relasi').val('');
-                $('#nama_relasi').val('');
-                $('#relasi-modal').modal('show'); // Open the modal
-            });
+        <script>
+            $(document).ready(function() {
+                // Handle Add New Relasi button click
+                $('#add-new-data').click(function() {
+                    $('#relasi-modal-label').text('Add New Relasi');
+                    $('#relasi-form').attr('action', '{{ route('relasi.store') }}');
+                    $('#id_relasi').val('');
+                    $('#nama_relasi').val('');
+                    $('#relasi-modal').modal('show'); // Open the modal
+                });
 
-            // Handle Edit button click
-            $('.btn-edit').click(function() {
-                var id = $(this).data('id');
+                // Handle Edit button click
+                $('.btn-edit').click(function() {
+                    var id = $(this).data('id');
 
-                $.ajax({
-                    url: '{{ url('relasi') }}/' + id,
-                    method: 'GET',
-                    success: function(response) {
-                        $('#relasi-modal-label').text('Edit Relasi');
-                        $('#relasi-form').attr('action', '{{ url('relasi') }}/' + id);
-                        $('#id_relasi').val(id);
-                        $('#nama_relasi').val(response.nama_relasi);
-                        $('#relasi-modal').modal('show'); // Open the modal
-                    }
+                    $.ajax({
+                        url: '{{ url('relasi') }}/' + id,
+                        method: 'GET',
+                        success: function(response) {
+                            $('#relasi-modal-label').text('Edit Relasi');
+                            $('#relasi-form').attr('action', '{{ url('relasi') }}/' + id);
+                            $('#id_relasi').val(id);
+                            $('#nama_relasi').val(response.nama_relasi);
+                            $('#relasi-modal').modal('show'); // Open the modal
+                        }
+                    });
+                });
+
+                // Handle form submit for both add and edit
+                $('#relasi-form').submit(function(e) {
+                    e.preventDefault();
+                    var url = $(this).attr('action');
+                    var method = ($('#id_relasi').val() === '') ? 'POST' : 'PUT';
+
+                    $.ajax({
+                        url: url,
+                        method: method,
+                        data: $(this).serialize(),
+                        success: function(response) {
+                            $('#relasi-modal').modal('hide');
+                            Swal.fire({
+                                title: 'Success!',
+                                text: response.message,
+                                icon: 'success',
+                                confirmButtonColor: '#696cff'
+                            }).then(() => {
+                                // Arahkan kembali ke halaman utama atau reload data
+                                window.location
+                                    .reload(); // Reload halaman untuk memperbarui tampilan
+                            });
+                        }
+                    });
                 });
             });
-
-            // Handle form submit for both add and edit
-            $('#relasi-form').submit(function(e) {
-                e.preventDefault();
-                var url = $(this).attr('action');
-                var method = ($('#id_relasi').val() === '') ? 'POST' : 'PUT';
-
-                $.ajax({
-                    url: url,
-                    method: method,
-                    data: $(this).serialize(),
-                    success: function(response) {
-                        $('#relasi-modal').modal('hide');
-                        Swal.fire({
-                            title: 'Success!',
-                            text: response.message,
-                            icon: 'success',
-                            confirmButtonColor: '#696cff'
-                        }).then(() => {
-                            // Arahkan kembali ke halaman utama atau reload data
-                            window.location
-                                .reload(); // Reload halaman untuk memperbarui tampilan
-                        });
-                    }
-                });
-            });
-        });
-    </script>
-@endpush
+        </script>
+    @endpush

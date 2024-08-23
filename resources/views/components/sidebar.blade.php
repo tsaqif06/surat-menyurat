@@ -55,22 +55,27 @@
                 <div class="text-truncate" data-i18n="Kanban">Ruang Penyimpanan</div>
             </a>
         </li>
+
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Menu Utama</span>
+        </li>
+        
         <li class="menu-item">
             <a href="{{ route('relasi.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-grid"></i>
                 <div class="text-truncate" data-i18n="Kanban">Perusahaan/Relasi</div>
             </a>
-          </li>
-          <li class="menu-item">
+        </li>
+        <li class="menu-item">
             <a href="{{ route('suratmasuk.index') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-grid"></i>
-              <div class="text-truncate" data-i18n="Kanban">Surat Masuk</div>
+                <i class="menu-icon tf-icons bx bx-grid"></i>
+                <div class="text-truncate" data-i18n="Kanban">Surat Masuk</div>
             </a>
-          </li>
-          <li class="menu-item">
+        </li>
+        <li class="menu-item">
             <a href="{{ route('suratkeluar.index') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-grid"></i>
-              <div class="text-truncate" data-i18n="Kanban">Surat Keluar</div>
+                <i class="menu-icon tf-icons bx bx-grid"></i>
+                <div class="text-truncate" data-i18n="Kanban">Surat Keluar</div>
             </a>
         </li>
         <li class="menu-item {{ \Illuminate\Support\Facades\Route::is('transaction.*') ? 'active open' : '' }}">

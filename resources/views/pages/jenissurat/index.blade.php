@@ -12,8 +12,8 @@
         </button>
     </div>
 
-     <!-- DataTable with Buttons -->
-     <div class="card">
+    <!-- DataTable with Buttons -->
+    <div class="card">
         <div class="card-datatable table-responsive">
             <table id="table" class="datatables-basic table table-bordered border-top">
                 <thead>
@@ -21,7 +21,9 @@
                         <th style="width: 50px;">#</th>
                         <th style="width: 50px;">Id</th>
                         <th>Jenis Surat</th>
-                        <th style="width: 200px;">Action</th>
+                        @if (auth()->user()->id_jabatan == 1)
+                            <th style="width: 200px;">Action</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -33,21 +35,24 @@
                             <td>{{ $i }}</td>
                             <td>{{ $jenissurat->id_jenis_surat }}</td>
                             <td>{{ $jenissurat->nama_jenis_surat }}</td>
-                            <td>
-                                <button type="button" class="btn btn-primary btn-sm btn-edit"
-                                    data-id="{{ $jenissurat->id_jenis_surat }}" data-nama-jenissurat="{{ $jenissurat->nama_jenis_surat }}">
-                                    <i class="bx bx-edit"></i>
-                                </button>
-                                <form action="{{ route('jenis.destroy', $jenissurat->id_jenis_surat) }}" method="POST"
-                                    style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn btn-danger btn-sm btn-delete"
-                                        data-id="{{ $jenissurat->id_jenis_surat }}">
-                                        <i class="bx bx-trash"></i>
+                            @if (auth()->user()->id_jabatan == 1)
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm btn-edit"
+                                        data-id="{{ $jenissurat->id_jenis_surat }}"
+                                        data-nama-jenissurat="{{ $jenissurat->nama_jenis_surat }}">
+                                        <i class="bx bx-edit"></i>
                                     </button>
-                                </form>
-                            </td>
+                                    <form action="{{ route('jenis.destroy', $jenissurat->id_jenis_surat) }}" method="POST"
+                                        style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-sm btn-delete"
+                                            data-id="{{ $jenissurat->id_jenis_surat }}">
+                                            <i class="bx bx-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            @endif
                         </tr>
                         @php
                             $i++;
@@ -58,7 +63,8 @@
         </div>
     </div>
     <!-- Modal Structure -->
-    <div class="modal fade" id="jenissurat-modal" tabindex="-1" aria-labelledby="jenissurat-modal-label" aria-hidden="true">
+    <div class="modal fade" id="jenissurat-modal" tabindex="-1" aria-labelledby="jenissurat-modal-label"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">

@@ -21,7 +21,9 @@
                         <th style="width: 50px;">#</th>
                         <th style="width: 50px;">Id</th>
                         <th>Jabatan</th>
-                        <th style="width: 200px;">Action</th>
+                        @if (auth()->user()->id_jabatan == 1)
+                            <th style="width: 200px;">Action</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -33,21 +35,24 @@
                             <td>{{ $i }}</td>
                             <td>{{ $jabatan->id_jabatan }}</td>
                             <td>{{ $jabatan->nama_jabatan }}</td>
-                            <td>
-                                <button type="button" class="btn btn-primary btn-sm btn-edit"
-                                    data-id="{{ $jabatan->id_jabatan }}" data-nama-jabatan="{{ $jabatan->nama_jabatan }}">
-                                    <i class="bx bx-edit"></i>
-                                </button>
-                                <form action="{{ route('jabatan.destroy', $jabatan->id_jabatan) }}" method="POST"
-                                    style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn btn-danger btn-sm btn-delete"
-                                        data-id="{{ $jabatan->id_jabatan }}">
-                                        <i class="bx bx-trash"></i>
+                            @if (auth()->user()->id_jabatan == 1)
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm btn-edit"
+                                        data-id="{{ $jabatan->id_jabatan }}"
+                                        data-nama-jabatan="{{ $jabatan->nama_jabatan }}">
+                                        <i class="bx bx-edit"></i>
                                     </button>
-                                </form>
-                            </td>
+                                    <form action="{{ route('jabatan.destroy', $jabatan->id_jabatan) }}" method="POST"
+                                        style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-sm btn-delete"
+                                            data-id="{{ $jabatan->id_jabatan }}">
+                                            <i class="bx bx-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            @endif
                         </tr>
                         @php
                             $i++;

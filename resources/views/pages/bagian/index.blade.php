@@ -22,7 +22,9 @@
                         <th style="width: 50px;">#</th>
                         <th style="width: 50px;">Id</th>
                         <th>Bagian</th>
-                        <th style="width: 200px;">Action</th>
+                        @if (auth()->user()->id_jabatan == 1)
+                            <th style="width: 200px;">Action</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -34,21 +36,23 @@
                             <td>{{ $i }}</td>
                             <td>{{ $bagian->id_bagian }}</td>
                             <td>{{ $bagian->nama_bagian }}</td>
-                            <td>
-                                <button type="button" class="btn btn-primary btn-sm btn-edit"
-                                    data-id="{{ $bagian->id_bagian }}" data-nama-bagian="{{ $bagian->nama_bagian }}">
-                                    <i class="bx bx-edit"></i>
-                                </button>
-                                <form action="{{ route('bagian.destroy', $bagian->id_bagian) }}" method="POST"
-                                    style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn btn-danger btn-sm btn-delete"
-                                        data-id="{{ $bagian->id_bagian }}">
-                                        <i class="bx bx-trash"></i>
+                            @if (auth()->user()->id_jabatan == 1)
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm btn-edit"
+                                        data-id="{{ $bagian->id_bagian }}" data-nama-bagian="{{ $bagian->nama_bagian }}">
+                                        <i class="bx bx-edit"></i>
                                     </button>
-                                </form>
-                            </td>
+                                    <form action="{{ route('bagian.destroy', $bagian->id_bagian) }}" method="POST"
+                                        style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-sm btn-delete"
+                                            data-id="{{ $bagian->id_bagian }}">
+                                            <i class="bx bx-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            @endif
                         </tr>
                         @php
                             $i++;

@@ -21,7 +21,9 @@
                         <th style="width: 50px;">#</th>
                         <th style="width: 50px;">Id</th>
                         <th>Ruang Penyimpanan</th>
-                        <th style="width: 200px;">Action</th>
+                        @if (auth()->user()->id_jabatan == 1)
+                            <th style="width: 200px;">Action</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -33,21 +35,23 @@
                             <td>{{ $i }}</td>
                             <td>{{ $ruangpenyimpanan->id_ruang_penyimpanan }}</td>
                             <td>{{ $ruangpenyimpanan->nama_ruang }}</td>
-                            <td>
-                                <button type="button" class="btn btn-primary btn-sm btn-edit"
-                                    data-id="{{ $ruangpenyimpanan->id_ruang_penyimpanan }}" data-nama-ruangpenyimpanan="{{ $ruangpenyimpanan->nama_ruang }}">
-                                    <i class="bx bx-edit"></i>
-                                </button>
-                                <form action="{{ route('ruang.destroy', $ruangpenyimpanan->id_ruang_penyimpanan) }}" method="POST"
-                                    style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn btn-danger btn-sm btn-delete"
-                                        data-id="{{ $ruangpenyimpanan->id_ruang_penyimpanan }}">
-                                        <i class="bx bx-trash"></i>
+                            @if (auth()->user()->id_jabatan == 1)
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm btn-edit"
+                                        data-id="{{ $ruangpenyimpanan->id_ruang_penyimpanan }}"
+                                        data-nama-ruangpenyimpanan="{{ $ruangpenyimpanan->nama_ruang }}">
+                                        <i class="bx bx-edit"></i>
                                     </button>
-                                </form>
-                            </td>
+                                    <form action="{{ route('ruang.destroy', $ruangpenyimpanan->id_ruang_penyimpanan) }}"
+                                        method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-sm btn-delete"
+                                            data-id="{{ $ruangpenyimpanan->id_ruang_penyimpanan }}">
+                                            <i class="bx bx-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
                         </tr>
                         @php
                             $i++;
@@ -58,8 +62,9 @@
         </div>
     </div>
 
-     <!-- Modal Structure -->
-     <div class="modal fade" id="ruangpenyimpanan-modal" tabindex="-1" aria-labelledby="ruangpenyimpanan-modal-label" aria-hidden="true">
+    <!-- Modal Structure -->
+    <div class="modal fade" id="ruangpenyimpanan-modal" tabindex="-1" aria-labelledby="ruangpenyimpanan-modal-label"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -110,7 +115,8 @@
                     method: 'GET',
                     success: function(response) {
                         $('#ruangpenyimpanan-modal-label').text('Edit Ruang Penyimpanan');
-                        $('#ruangpenyimpanan-form').attr('action', '{{ url('ruang') }}/' + id);
+                        $('#ruangpenyimpanan-form').attr('action', '{{ url('ruang') }}/' +
+                            id);
                         $('#id_ruang_penyimpanan').val(id);
                         $('#nama_ruang').val(response.nama_ruang);
                         $('#ruangpenyimpanan-modal').modal('show'); // Open the modal
