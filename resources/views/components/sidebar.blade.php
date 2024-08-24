@@ -77,13 +77,11 @@
                 <ul class="menu-sub">
                     <li class="menu-item">
                         <a href="{{ route('suratmasuk.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-grid"></i>
                             <div class="text-truncate" data-i18n="Kanban">Surat Masuk</div>
                         </a>
                     </li>
                     <li class="menu-item">
                         <a href="{{ route('suratkeluar.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-grid"></i>
                             <div class="text-truncate" data-i18n="Kanban">Surat Keluar</div>
                         </a>
                     </li>
