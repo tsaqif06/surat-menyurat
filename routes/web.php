@@ -26,31 +26,38 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('jenis', \App\Http\Controllers\JenisSuratController::class);
         Route::resource('relasi', \App\Http\Controllers\RelasiController::class);
         Route::resource('ruang', \App\Http\Controllers\RuangPenyimpananController::class);
-        Route::resource('suratmasuk', \App\Http\Controllers\SuratMasukController::class);
+        // Route::resource('suratmasuk', \App\Http\Controllers\SuratMasukController::class);
         Route::post('suratmasuk/uploadfile/{id}', [\App\Http\Controllers\SuratMasukController::class, 'uploadFile'])
             ->name('suratmasuk.uploadfile');
         Route::post('/suratmasuk/store-disposisi', [\App\Http\Controllers\SuratMasukController::class, 'storeDisposisi'])
             ->name('suratmasuk.storeDisposisi');
 
-        Route::resource('suratkeluar', \App\Http\Controllers\SuratKeluarController::class);
+        // Route::resource('suratkeluar', \App\Http\Controllers\SuratKeluarController::class);
         Route::post('suratkeluar/uploadfile/{id}', [\App\Http\Controllers\SuratKeluarController::class, 'uploadFile'])
             ->name('suratkeluar.uploadfile');
     });
 
-    Route::middleware(['auth', 'check.jabatan:2,3'])->group(function () {
-        Route::get('pdisposisi', [\App\Http\Controllers\SuratMasukController::class, 'persetujuan'])
-            ->name('pdisposisi.index');
-        Route::post('pdisposisi/setuju/{id}', [\App\Http\Controllers\SuratMasukController::class, 'setuju'])
-            ->name('pdisposisi.setuju');
-        Route::post('pdisposisi/tolak/{id}', [\App\Http\Controllers\SuratMasukController::class, 'tolak'])
-            ->name('pdisposisi.tolak');
+    Route::middleware(['auth', 'check.jabatan:1,2,3'])->group(function () {
+        Route::resource('suratmasuk', \App\Http\Controllers\SuratMasukController::class);
+    });
 
+    Route::middleware(['auth', 'check.jabatan:1,3'])->group(function () {
+        Route::resource('suratkeluar', \App\Http\Controllers\SuratKeluarController::class);
         Route::get('approve', [\App\Http\Controllers\SuratKeluarController::class, 'persetujuan'])
             ->name('approve.index');
         Route::post('approve/setuju/{id}', [\App\Http\Controllers\SuratKeluarController::class, 'setuju'])
             ->name('approve.setuju');
         Route::post('approve/tolak/{id}', [\App\Http\Controllers\SuratKeluarController::class, 'tolak'])
             ->name('approve.tolak');
+    });
+
+    Route::middleware(['auth', 'check.jabatan:1,2'])->group(function () {
+        Route::get('pdisposisi', [\App\Http\Controllers\SuratMasukController::class, 'persetujuan'])
+            ->name('pdisposisi.index');
+        Route::post('pdisposisi/setuju/{id}', [\App\Http\Controllers\SuratMasukController::class, 'setuju'])
+            ->name('pdisposisi.setuju');
+        Route::post('pdisposisi/tolak/{id}', [\App\Http\Controllers\SuratMasukController::class, 'tolak'])
+            ->name('pdisposisi.tolak');
     });
 
     Route::get('ldisposisi', [\App\Http\Controllers\RelDisposisiController::class, 'index'])

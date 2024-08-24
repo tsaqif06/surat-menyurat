@@ -24,7 +24,7 @@
                         <th>Judul</th>
                         <th>Tanggal Kirim</th>
                         <th style="width: 50px">Status</th>
-                        @if (auth()->user()->id_jabatan == 2 || auth()->user()->id_jabatan == 3)
+                        @if (auth()->user()->id_jabatan == 3)
                             <th style="width: 200px;">Action</th>
                         @endif
                     </tr>
@@ -49,7 +49,7 @@
                                     <span class="badge bg-success">Disetujui</span>
                                 @endif
                             </td>
-                            @if (auth()->user()->id_jabatan == 2 || auth()->user()->id_jabatan == 3)
+                            @if (auth()->user()->id_jabatan == 3)
                                 <td>
                                     @if ($suratkeluar->status_surat == 1)
                                         <button type="button" class="btn btn-success btn-sm btn-setuju"

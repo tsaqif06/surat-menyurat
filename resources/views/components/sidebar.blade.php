@@ -68,49 +68,51 @@
         </li>
 
 
-        @if (auth()->user()->id_jabatan == 1)
-            <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="menu-icon tf-icons bx bx-mail-send"></i>
-                    <div data-i18n="Persetujuan">Transaksi Surat</div>
-                </a>
-                <ul class="menu-sub">
-                    <li class="menu-item">
-                        <a href="{{ route('suratmasuk.index') }}" class="menu-link">
-                            <div class="text-truncate" data-i18n="Kanban">Surat Masuk</div>
-                        </a>
-                    </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-mail-send"></i>
+                <div data-i18n="Persetujuan">Transaksi Surat</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ route('suratmasuk.index') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Kanban">Surat Masuk</div>
+                    </a>
+                </li>
+                @if (auth()->user()->id_jabatan != 2)
                     <li class="menu-item">
                         <a href="{{ route('suratkeluar.index') }}" class="menu-link">
                             <div class="text-truncate" data-i18n="Kanban">Surat Keluar</div>
                         </a>
                     </li>
-                </ul>
-            </li>
-        @endif
+                @endif
+            </ul>
+        </li>
 
-        @if (auth()->user()->id_jabatan == 2 || auth()->user()->id_jabatan == 3)
-            <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="menu-icon tf-icons bx bx-mail-send"></i>
-                    <div data-i18n="Persetujuan">Persetujuan Surat</div>
-                </a>
-                <ul class="menu-sub">
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-mail-send"></i>
+                <div data-i18n="Persetujuan">Persetujuan Surat</div>
+            </a>
+            <ul class="menu-sub">
+                @if (auth()->user()->id_jabatan != 3)
                     <li class="menu-item">
                         <a href="{{ route('pdisposisi.index') }}" class="menu-link">
                             <div data-i18n="{{ __('menu.transaction.incoming_letter') }}">
                                 {{ __('menu.transaction.incoming_letter') }}</div>
                         </a>
                     </li>
+                @endif
+                @if (auth()->user()->id_jabatan != 2)
                     <li class="menu-item">
                         <a href="{{ route('approve.index') }}" class="menu-link">
                             <div data-i18n="{{ __('menu.transaction.outgoing_letter') }}">
                                 {{ __('menu.transaction.outgoing_letter') }}</div>
                         </a>
                     </li>
-                </ul>
-            </li>
-        @endif
+                @endif
+            </ul>
+        </li>
         <li class="menu-item">
             <a href="{{ route('ldisposisi.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-grid"></i>

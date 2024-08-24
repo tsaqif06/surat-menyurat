@@ -1,9 +1,9 @@
 @extends('layout.main')
 
 @section('content')
-<h4 class="py-3 mb-4">
-    Laporan Disposisi
-</h4>
+    <h4 class="py-3 mb-4">
+        Laporan Disposisi
+    </h4>
 
 
     <div class="card mb-5">
@@ -91,3 +91,11 @@
 
     {{--  {!! $data->appends(['search' => $search, 'since' => $since, 'until' => $until, 'filter' => $filter])->links() !!}  --}}
 @endsection
+
+@push('script')
+    <script>
+        $(document).ready(function() {
+            $('#table').DataTable();
+        });
+    </script>
+@endpush

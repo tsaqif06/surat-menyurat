@@ -5,12 +5,14 @@
         <span class="text-muted fw-light">Persetujuan /</span> Surat Masuk
     </h4>
 
-    <!-- Add New Record Button -->
-    <div class="mb-3">
-        <button class="btn btn-primary" id="add-new-data">
-            Add New Surat Masuk
-        </button>
-    </div>
+    @if (auth()->user()->id_jabatan == 1)
+        <!-- Add New Record Button -->
+        <div class="mb-3">
+            <button class="btn btn-primary" id="add-new-data">
+                Add New Surat Masuk
+            </button>
+        </div>
+    @endif
 
     <!-- DataTable with Buttons -->
     <div class="card">
@@ -41,34 +43,36 @@
                             <td>{{ $suratmasuk->judul_surat_masuk }}</td>
                             <td>{{ $suratmasuk->lampiran }}</td>
                             <td>{{ $suratmasuk->tanggal_surat_masuk }}</td>
-                            <td>
-                                <button type="button" class="btn btn-primary btn-sm btn-edit" title="Edit"
-                                    data-id="{{ $suratmasuk->id_surat_masuk }}"
-                                    data-nomor-surat-masuk="{{ $suratmasuk->nomor_surat_masuk }}">
-                                    <i class="bx bx-edit"></i>
-                                </button>
-                                <form action="{{ route('suratmasuk.destroy', $suratmasuk->id_surat_masuk) }}" method="POST"
-                                    style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn btn-danger btn-sm btn-delete" title="Hapus"
-                                        data-id="{{ $suratmasuk->id_surat_masuk }}">
-                                        <i class="bx bx-trash"></i>
+                            @if (auth()->user()->id_jabatan == 1)
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm btn-edit" title="Edit"
+                                        data-id="{{ $suratmasuk->id_surat_masuk }}"
+                                        data-nomor-surat-masuk="{{ $suratmasuk->nomor_surat_masuk }}">
+                                        <i class="bx bx-edit"></i>
                                     </button>
-                                </form>
-                                @if (!$suratmasuk->is_disposisi)
-                                    <form action="{{ route('suratmasuk.storeDisposisi') }}" method="POST"
-                                        style="display:inline;">
+                                    <form action="{{ route('suratmasuk.destroy', $suratmasuk->id_surat_masuk) }}"
+                                        method="POST" style="display:inline;">
                                         @csrf
-                                        <input type="hidden" name="id_bagian" value="{{ $suratmasuk->id_bagian }}">
-                                        <input type="hidden" name="id_surat_masuk"
-                                            value="{{ $suratmasuk->id_surat_masuk }}">
-                                        <button type="submit" class="btn btn-warning btn-sm" title="Disposisi">
-                                            <i class="bx bx-share"></i>
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-sm btn-delete" title="Hapus"
+                                            data-id="{{ $suratmasuk->id_surat_masuk }}">
+                                            <i class="bx bx-trash"></i>
                                         </button>
                                     </form>
-                                @endif
-                            </td>
+                                    @if (!$suratmasuk->is_disposisi)
+                                        <form action="{{ route('suratmasuk.storeDisposisi') }}" method="POST"
+                                            style="display:inline;">
+                                            @csrf
+                                            <input type="hidden" name="id_bagian" value="{{ $suratmasuk->id_bagian }}">
+                                            <input type="hidden" name="id_surat_masuk"
+                                                value="{{ $suratmasuk->id_surat_masuk }}">
+                                            <button type="submit" class="btn btn-warning btn-sm" title="Disposisi">
+                                                <i class="bx bx-share"></i>
+                                            </button>
+                                        </form>
+                                    @endif
+                                </td>
+                            @endif
                         </tr>
                         @php
                             $i++;

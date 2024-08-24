@@ -5,12 +5,14 @@
         <span class="text-muted fw-light">Master /</span> Surat Keluar
     </h4>
 
-    <!-- Add New Record Button -->
-    <div class="mb-3">
-        <button class="btn btn-primary" id="add-new-data">
-            Add New Surat Keluar
-        </button>
-    </div>
+    @if (auth()->user()->id_jabatan == 1)
+        <!-- Add New Record Button -->
+        <div class="mb-3">
+            <button class="btn btn-primary" id="add-new-data">
+                Add New Surat Keluar
+            </button>
+        </div>
+    @endif
 
     <!-- DataTable with Buttons -->
     <div class="card">
@@ -41,22 +43,24 @@
                             <td>{{ $suratkeluar->judul_surat_keluar }}</td>
                             <td>{{ $suratkeluar->lampiran }}</td>
                             <td>{{ $suratkeluar->tanggal_surat_keluar }}</td>
-                            <td>
-                                <button type="button" class="btn btn-primary btn-sm btn-edit"
-                                    data-id="{{ $suratkeluar->id_surat_keluar }}"
-                                    data-nomor-surat-keluar="{{ $suratkeluar->nomor_surat_keluar }}">
-                                    <i class="bx bx-edit"></i>
-                                </button>
-                                <form action="{{ route('suratkeluar.destroy', $suratkeluar->id_surat_keluar) }}"
-                                    method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn btn-danger btn-sm btn-delete"
-                                        data-id="{{ $suratkeluar->id_surat_keluar }}">
-                                        <i class="bx bx-trash"></i>
+                            @if (auth()->user()->id_jabatan == 1)
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm btn-edit"
+                                        data-id="{{ $suratkeluar->id_surat_keluar }}"
+                                        data-nomor-surat-keluar="{{ $suratkeluar->nomor_surat_keluar }}">
+                                        <i class="bx bx-edit"></i>
                                     </button>
-                                </form>
-                            </td>
+                                    <form action="{{ route('suratkeluar.destroy', $suratkeluar->id_surat_keluar) }}"
+                                        method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-sm btn-delete"
+                                            data-id="{{ $suratkeluar->id_surat_keluar }}">
+                                            <i class="bx bx-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            @endif
                         </tr>
                         @php
                             $i++;
@@ -228,9 +232,9 @@
                                 if (response.file_surat) {
                                     var filePath = response.file_surat;
                                     if (!filePath.startsWith(
-                                        'storage/suratkeluar/')) {
+                                            'storage/suratkeluar/')) {
                                         filePath = 'storage/suratkeluar/' +
-                                        filePath;
+                                            filePath;
                                     }
                                     $('#file_surat_view').html(
                                         '<a href="{{ url('') }}/' +
@@ -241,10 +245,10 @@
                                 } else {
                                     $('#file_surat_view').html(
                                         '<span class="text-muted">No file uploaded.</span>'
-                                        );
+                                    );
                                 }
                                 $('#suratkeluar-modal').modal(
-                                'show'); // Open the modal
+                                    'show'); // Open the modal
                             }
                         });
                     });

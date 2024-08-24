@@ -95,18 +95,20 @@
                 </div>
             </div>
 
-            <div class="mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between flex-sm-row flex-column gap-3"
-                            style="position: relative;">
-                            <div id="profileReportChart" style="min-height: 500px; width: 100%;">
-                                <div id="today-graphic"></div>
+            @if (auth()->user()->id_jabatan != 2)
+                <div class="mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between flex-sm-row flex-column gap-3"
+                                style="position: relative;">
+                                <div id="profileReportChart" style="min-height: 500px; width: 100%;">
+                                    <div id="today-graphic"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
 @endsection
