@@ -29,6 +29,9 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('suratmasuk', \App\Http\Controllers\SuratMasukController::class);
         Route::post('suratmasuk/uploadfile/{id}', [\App\Http\Controllers\SuratMasukController::class, 'uploadFile'])
             ->name('suratmasuk.uploadfile');
+        Route::resource('suratkeluar', \App\Http\Controllers\SuratKeluarController::class);
+        Route::post('suratkeluar/uploadfile/{id}', [\App\Http\Controllers\SuratKeluarController::class, 'uploadFile'])
+            ->name('suratkeluar.uploadfile');
     });
 
     Route::middleware(['auth', 'check.jabatan:2,3'])->group(function () {
