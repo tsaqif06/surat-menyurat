@@ -98,6 +98,31 @@
 @push('script')
     <script>
         $(document).ready(function() {
+            var table = $('#table').DataTable({
+                drawCallback: function(settings) {
+                    // Inisialisasi ulang tombol edit setelah DataTable di-render ulang
+                    $('.btn-edit').click(function() {
+                        var id = $(this).data('id');
+
+                        $.ajax({
+                            url: '{{ url('ruang') }}/' + id,
+                            method: 'GET',
+                            success: function(response) {
+                                $('#ruangpenyimpanan-modal-label').text(
+                                    'Edit Ruang Penyimpanan');
+                                $('#ruangpenyimpanan-form').attr('action',
+                                    '{{ url('ruang') }}/' + id);
+                                $('#id_ruang_penyimpanan').val(id);
+                                $('#nama_ruang').val(response.nama_ruang);
+                                $('#ruangpenyimpanan-modal').modal(
+                                'show'); // Open the modal
+                            }
+                        });
+                    });
+                }
+            });
+
+
             // Handle Add New ruangpenyimpanan button click
             $('#add-new-data').click(function() {
                 $('#ruangpenyimpanan-modal-label').text('Add New Ruang Penyimpanan');
@@ -105,24 +130,6 @@
                 $('#id_ruang_penyimpanan').val('');
                 $('#nama_ruang').val('');
                 $('#ruangpenyimpanan-modal').modal('show'); // Open the modal
-            });
-
-            // Handle Edit button click
-            $('.btn-edit').click(function() {
-                var id = $(this).data('id');
-
-                $.ajax({
-                    url: '{{ url('ruang') }}/' + id,
-                    method: 'GET',
-                    success: function(response) {
-                        $('#ruangpenyimpanan-modal-label').text('Edit Ruang Penyimpanan');
-                        $('#ruangpenyimpanan-form').attr('action', '{{ url('ruang') }}/' +
-                            id);
-                        $('#id_ruang_penyimpanan').val(id);
-                        $('#nama_ruang').val(response.nama_ruang);
-                        $('#ruangpenyimpanan-modal').modal('show'); // Open the modal
-                    }
-                });
             });
 
             // Handle form submit for both add and edit

@@ -112,6 +112,82 @@
 @push('script')
     <script>
         $(document).ready(function() {
+            var table = $('#table').DataTable({
+                drawCallback: function(settings) {
+                    // Handle Edit button click
+                    $(document).on('click', '.btn-setuju', function() {
+                        var id = $(this).data('id');
+
+                        Swal.fire({
+                            title: 'Apakah Anda yakin?',
+                            text: "Anda akan menyetujui surat keluar ini.",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#28a745',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ya, Setujui!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: '{{ url('approve/setuju') }}/' + id,
+                                    method: 'POST',
+                                    data: {
+                                        _token: '{{ csrf_token() }}',
+                                        status: 2
+                                    },
+                                    success: function(response) {
+                                        Swal.fire({
+                                            title: 'Berhasil!',
+                                            text: 'Surat telah disetujui.',
+                                            icon: 'success',
+                                            confirmButtonColor: '#28a745'
+                                        }).then(() => {
+                                            location.reload();
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    });
+
+                    // Handle Tolak button click
+                    $(document).on('click', '.btn-tolak', function() {
+                        var id = $(this).data('id');
+
+                        Swal.fire({
+                            title: 'Apakah Anda yakin?',
+                            text: "Anda akan menolak surat keluar ini.",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#ffc107',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ya, Tolak!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: '{{ url('approve/tolak') }}/' + id,
+                                    method: 'POST',
+                                    data: {
+                                        _token: '{{ csrf_token() }}',
+                                        status: 0
+                                    },
+                                    success: function(response) {
+                                        Swal.fire({
+                                            title: 'Berhasil!',
+                                            text: 'Surat telah ditolak.',
+                                            icon: 'success',
+                                            confirmButtonColor: '#ffc107'
+                                        }).then(() => {
+                                            location.reload();
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    });
+                }
+            });
+
             // Handle Add New suratkeluar button click
             $('#add-new-data').click(function() {
                 $('#suratkeluar-modal-label').text('Add New suratkeluar');
@@ -119,78 +195,6 @@
                 $('#id_suratkeluar').val('');
                 $('#nama_suratkeluar').val('');
                 $('#suratkeluar-modal').modal('show'); // Open the modal
-            });
-
-            // Handle Edit button click
-            $(document).on('click', '.btn-setuju', function() {
-                var id = $(this).data('id');
-
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    text: "Anda akan menyetujui surat keluar ini.",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#28a745',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, Setujui!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: '{{ url('approve/setuju') }}/' + id,
-                            method: 'POST',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                status: 2
-                            },
-                            success: function(response) {
-                                Swal.fire({
-                                    title: 'Berhasil!',
-                                    text: 'Surat telah disetujui.',
-                                    icon: 'success',
-                                    confirmButtonColor: '#28a745'
-                                }).then(() => {
-                                    location.reload();
-                                });
-                            }
-                        });
-                    }
-                });
-            });
-
-            // Handle Tolak button click
-            $(document).on('click', '.btn-tolak', function() {
-                var id = $(this).data('id');
-
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    text: "Anda akan menolak surat keluar ini.",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#ffc107',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, Tolak!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: '{{ url('approve/tolak') }}/' + id,
-                            method: 'POST',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                status: 0
-                            },
-                            success: function(response) {
-                                Swal.fire({
-                                    title: 'Berhasil!',
-                                    text: 'Surat telah ditolak.',
-                                    icon: 'success',
-                                    confirmButtonColor: '#ffc107'
-                                }).then(() => {
-                                    location.reload();
-                                });
-                            }
-                        });
-                    }
-                });
             });
         });
     </script>

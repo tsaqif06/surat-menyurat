@@ -97,6 +97,27 @@
 @push('script')
     <script>
         $(document).ready(function() {
+            var table = $('#table').DataTable({
+                drawCallback: function(settings) {
+                    $('.btn-edit').click(function() {
+                        var id = $(this).data('id');
+
+                        $.ajax({
+                            url: '{{ url('jabatan') }}/' + id,
+                            method: 'GET',
+                            success: function(response) {
+                                $('#jabatan-modal-label').text('Edit Jabatan');
+                                $('#jabatan-form').attr('action',
+                                    '{{ url('jabatan') }}/' + id);
+                                $('#id_jabatan').val(id);
+                                $('#nama_jabatan').val(response.nama_jabatan);
+                                $('#jabatan-modal').modal('show'); // Open the modal
+                            }
+                        });
+                    });
+                }
+            });
+
             // Handle Add New Jabatan button click
             $('#add-new-data').click(function() {
                 $('#jabatan-modal-label').text('Add New Jabatan');
@@ -104,23 +125,6 @@
                 $('#id_jabatan').val('');
                 $('#nama_jabatan').val('');
                 $('#jabatan-modal').modal('show'); // Open the modal
-            });
-
-            // Handle Edit button click
-            $('.btn-edit').click(function() {
-                var id = $(this).data('id');
-
-                $.ajax({
-                    url: '{{ url('jabatan') }}/' + id,
-                    method: 'GET',
-                    success: function(response) {
-                        $('#jabatan-modal-label').text('Edit Jabatan');
-                        $('#jabatan-form').attr('action', '{{ url('jabatan') }}/' + id);
-                        $('#id_jabatan').val(id);
-                        $('#nama_jabatan').val(response.nama_jabatan);
-                        $('#jabatan-modal').modal('show'); // Open the modal
-                    }
-                });
             });
 
             // Handle form submit for both add and edit
