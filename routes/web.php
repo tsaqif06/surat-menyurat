@@ -20,29 +20,33 @@ Route::middleware(['auth'])->group(function () {
         ->except(['show', 'edit', 'create'])
         ->middleware(['role:admin']);
 
-    Route::resource('jabatan', \App\Http\Controllers\JabatanController::class);
-    Route::resource('bagian', \App\Http\Controllers\BagianController::class);
-    Route::resource('jenis', \App\Http\Controllers\JenisSuratController::class);
-    Route::resource('relasi', \App\Http\Controllers\RelasiController::class);
-    Route::resource('ruang', \App\Http\Controllers\RuangPenyimpananController::class);
+    Route::middleware(['auth', 'check.jabatan:1'])->group(function () {
+        Route::resource('jabatan', \App\Http\Controllers\JabatanController::class);
+        Route::resource('bagian', \App\Http\Controllers\BagianController::class);
+        Route::resource('jenis', \App\Http\Controllers\JenisSuratController::class);
+        Route::resource('relasi', \App\Http\Controllers\RelasiController::class);
+        Route::resource('ruang', \App\Http\Controllers\RuangPenyimpananController::class);
+        Route::resource('suratmasuk', \App\Http\Controllers\SuratMasukController::class);
+        Route::post('suratmasuk/uploadfile/{id}', [\App\Http\Controllers\SuratMasukController::class, 'uploadFile'])
+            ->name('suratmasuk.uploadfile');
+    });
 
-    Route::resource('suratmasuk', \App\Http\Controllers\SuratMasukController::class);
-    Route::post('suratmasuk/uploadfile/{id}', [\App\Http\Controllers\SuratMasukController::class, 'uploadFile'])
-        ->name('suratmasuk.uploadfile');
+    Route::middleware(['auth', 'check.jabatan:2,3'])->group(function () {
+        Route::get('pdisposisi', [\App\Http\Controllers\SuratMasukController::class, 'persetujuan'])
+            ->name('pdisposisi.index');
+        Route::post('pdisposisi/setuju/{id}', [\App\Http\Controllers\SuratMasukController::class, 'setuju'])
+            ->name('pdisposisi.setuju');
+        Route::post('pdisposisi/tolak/{id}', [\App\Http\Controllers\SuratMasukController::class, 'tolak'])
+            ->name('pdisposisi.tolak');
 
-    Route::get('pdisposisi', [\App\Http\Controllers\SuratMasukController::class, 'persetujuan'])
-        ->name('pdisposisi.index');
-    Route::post('pdisposisi/setuju/{id}', [\App\Http\Controllers\SuratMasukController::class, 'setuju'])
-        ->name('pdisposisi.setuju');
-    Route::post('pdisposisi/tolak/{id}', [\App\Http\Controllers\SuratMasukController::class, 'tolak'])
-        ->name('pdisposisi.tolak');
+        Route::get('approve', [\App\Http\Controllers\SuratKeluarController::class, 'persetujuan'])
+            ->name('approve.index');
+        Route::post('approve/setuju/{id}', [\App\Http\Controllers\SuratKeluarController::class, 'setuju'])
+            ->name('approve.setuju');
+        Route::post('approve/tolak/{id}', [\App\Http\Controllers\SuratKeluarController::class, 'tolak'])
+            ->name('approve.tolak');
+    });
 
-    Route::get('approve', [\App\Http\Controllers\SuratKeluarController::class, 'persetujuan'])
-        ->name('approve.index');
-    Route::post('approve/setuju/{id}', [\App\Http\Controllers\SuratKeluarController::class, 'setuju'])
-        ->name('approve.setuju');
-    Route::post('approve/tolak/{id}', [\App\Http\Controllers\SuratKeluarController::class, 'tolak'])
-        ->name('approve.tolak');
 
     Route::get('ldisposisi', [\App\Http\Controllers\RelDisposisiController::class, 'index'])
         ->name('ldisposisi.index');
