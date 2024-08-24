@@ -47,7 +47,6 @@ Route::middleware(['auth'])->group(function () {
             ->name('approve.tolak');
     });
 
-
     Route::get('ldisposisi', [\App\Http\Controllers\RelDisposisiController::class, 'index'])
         ->name('ldisposisi.index');
     Route::get('ldisposisi/print', [\App\Http\Controllers\RelDisposisiController::class, 'print'])
