@@ -97,6 +97,27 @@
 @push('script')
     <script>
         $(document).ready(function() {
+            var table = $('#table').DataTable({
+                drawCallback: function(settings) {
+                    // Inisialisasi ulang tombol edit setelah DataTable di-render ulang
+                    $('.btn-edit').click(function() {
+                        var id = $(this).data('id');
+
+                        $.ajax({
+                            url: '{{ url('bagian') }}/' + id,
+                            method: 'GET',
+                            success: function(response) {
+                                $('#bagian-modal-label').text('Edit Bagian');
+                                $('#bagian-form').attr('action',
+                                    '{{ url('bagian') }}/' + id);
+                                $('#id_bagian').val(id);
+                                $('#nama_bagian').val(response.nama_bagian);
+                                $('#bagian-modal').modal('show'); // Open the modal
+                            }
+                        });
+                    });
+                }
+            });
             // Handle Add New Bagian button click
             $('#add-new-data').click(function() {
                 $('#bagian-modal-label').text('Add New Bagian');
@@ -104,23 +125,6 @@
                 $('#id_bagian').val('');
                 $('#nama_bagian').val('');
                 $('#bagian-modal').modal('show'); // Open the modal
-            });
-
-            // Handle Edit button click
-            $('.btn-edit').click(function() {
-                var id = $(this).data('id');
-
-                $.ajax({
-                    url: '{{ url('bagian') }}/' + id,
-                    method: 'GET',
-                    success: function(response) {
-                        $('#bagian-modal-label').text('Edit Bagian');
-                        $('#bagian-form').attr('action', '{{ url('bagian') }}/' + id);
-                        $('#id_bagian').val(id);
-                        $('#nama_bagian').val(response.nama_bagian);
-                        $('#bagian-modal').modal('show'); // Open the modal
-                    }
-                });
             });
 
             // Handle form submit for both add and edit

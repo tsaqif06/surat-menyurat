@@ -132,24 +132,6 @@
                 $('#ruangpenyimpanan-modal').modal('show'); // Open the modal
             });
 
-            // Handle Edit button click
-            {{--  $('.btn-edit').click(function() {
-                var id = $(this).data('id');
-
-                $.ajax({
-                    url: '{{ url('ruang') }}/' + id,
-                    method: 'GET',
-                    success: function(response) {
-                        $('#ruangpenyimpanan-modal-label').text('Edit Ruang Penyimpanan');
-                        $('#ruangpenyimpanan-form').attr('action', '{{ url('ruang') }}/' +
-                            id);
-                        $('#id_ruang_penyimpanan').val(id);
-                        $('#nama_ruang').val(response.nama_ruang);
-                        $('#ruangpenyimpanan-modal').modal('show'); // Open the modal
-                    }
-                });
-            });  --}}
-
             // Handle form submit for both add and edit
             $('#ruangpenyimpanan-form').submit(function(e) {
                 e.preventDefault();
