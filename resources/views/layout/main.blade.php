@@ -126,7 +126,7 @@
 <!-- Main JS -->
 <script src="{{ asset('sneat/js/main.js') }}"></script>
 <script>
-    $('#table').DataTable();
+    {{--  $('#table').DataTable();  --}}
 </script>
 <script>
     $(document).on('click', '.btn-delete', function(e) {
