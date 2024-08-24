@@ -248,27 +248,7 @@
                 var method = ($('#id_surat_masuk').val() === '') ? 'POST' : 'PUT';
                 var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-
                 var formData = new FormData(this);
-                {{--  formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute(
-                    'content'));
-                formData.append('id_surat_masuk', document.querySelector('input[name="id_surat_masuk"]')
-                    .value);
-                formData.append('id_relasi', document.querySelector('select[name="id_relasi"]').value);
-                formData.append('id_bagian', document.querySelector('select[name="id_bagian"]').value);
-                formData.append('id_ruang_penyimpanan', document.querySelector(
-                    'select[name="id_ruang_penyimpanan"]').value);
-                formData.append('id_jenis_surat_masuk', document.querySelector(
-                    'select[name="id_jenis_surat_masuk"]').value);
-                formData.append('nomor_surat_masuk', document.querySelector(
-                    'input[name="nomor_surat_masuk"]').value);
-                formData.append('judul_surat_masuk', document.querySelector(
-                    'input[name="judul_surat_masuk"]').value);
-                formData.append('lampiran', document.querySelector('input[name="lampiran"]').value);
-                formData.append('perihal', document.querySelector('input[name="perihal"]').value);
-                formData.append('keterangan', document.querySelector('input[name="keterangan"]').value);
-                formData.append('file_surat', document.querySelector('input[name="file_surat"]').files[0]);  --}}
-
                 var formDataObject = Array.from(formData.entries()).reduce((acc, [key, value]) => {
                     // Menangani file dengan cara khusus
                     if (value instanceof File) {
@@ -285,13 +265,13 @@
                     },
                     url: url,
                     method: method,
-                    data: $(this).serialize(), // Hanya mengirim data form tanpa file
+                    data: $(this).serialize(),
                     success: function(response) {
-                        // Jika ada file yang perlu dikirim, lanjutkan dengan mengirim file
+                        console.log(response);
                         if ($('#file_surat').val()) {
                             uploadFile(response
                                 .id_surat_masuk
-                            ); // Misalnya, response mengembalikan ID surat masuk
+                            );
                         } else {
                             $('#suratmasuk-modal').modal('hide');
                             Swal.fire({
@@ -301,7 +281,7 @@
                                 confirmButtonColor: '#696cff'
                             }).then(() => {
                                 window.location
-                                    .reload(); // Reload halaman untuk memperbarui tampilan
+                                    .reload();
                             });
                         }
                     },
@@ -343,18 +323,25 @@
 
             function uploadFile(idSuratMasuk) {
                 var formData = new FormData();
-                console.log('file');
+
+                // Menambahkan CSRF token ke FormData
                 formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+                // Menambahkan ID surat masuk ke FormData
                 formData.append('id_surat_masuk', idSuratMasuk);
+
+                // Menambahkan file yang dipilih ke FormData
                 formData.append('file_surat', $('#file_surat')[0].files[0]);
+
                 console.log(formData);
 
                 $.ajax({
-                    url: '{{ route('suratmasuk.uploadfile') }}', // Endpoint khusus untuk upload file
+                    // Menggunakan URL dynamic dengan idSuratMasuk
+                    url: '{{ route('suratmasuk.uploadfile', '') }}' + '/' + idSuratMasuk,
                     method: 'POST',
                     data: formData,
-                    processData: false,
-                    contentType: false,
+                    processData: false, // Jangan memproses data secara otomatis
+                    contentType: false, // Jangan set contentType secara otomatis
                     success: function(response) {
                         console.log('File uploaded successfully:', response);
                         $('#suratmasuk-modal').modal('hide');
@@ -369,10 +356,11 @@
                     },
                     error: function(error) {
                         console.error('File upload failed:', error);
-                        // Handle error
+                        // Handle error jika gagal upload
                     }
                 });
             }
+
         });
     </script>
 @endpush
