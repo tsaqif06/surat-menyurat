@@ -42,7 +42,7 @@
                             <td>{{ $suratmasuk->lampiran }}</td>
                             <td>{{ $suratmasuk->tanggal_surat_masuk }}</td>
                             <td>
-                                <button type="button" class="btn btn-primary btn-sm btn-edit"
+                                <button type="button" class="btn btn-primary btn-sm btn-edit" title="Edit"
                                     data-id="{{ $suratmasuk->id_surat_masuk }}"
                                     data-nomor-surat-masuk="{{ $suratmasuk->nomor_surat_masuk }}">
                                     <i class="bx bx-edit"></i>
@@ -51,7 +51,7 @@
                                     style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="button" class="btn btn-danger btn-sm btn-delete"
+                                    <button type="button" class="btn btn-danger btn-sm btn-delete" title="Hapus"
                                         data-id="{{ $suratmasuk->id_surat_masuk }}">
                                         <i class="bx bx-trash"></i>
                                     </button>
@@ -63,7 +63,7 @@
                                         <input type="hidden" name="id_bagian" value="{{ $suratmasuk->id_bagian }}">
                                         <input type="hidden" name="id_surat_masuk"
                                             value="{{ $suratmasuk->id_surat_masuk }}">
-                                        <button type="submit" class="btn btn-warning btn-sm">
+                                        <button type="submit" class="btn btn-warning btn-sm" title="Disposisi">
                                             <i class="bx bx-share"></i>
                                         </button>
                                     </form>

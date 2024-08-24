@@ -84,6 +84,12 @@ class SuratMasukController extends Controller
             'id_surat_masuk' => $request->id_surat_masuk,
         ]);
 
+        \DB::table('surat_masuks')
+            ->where('id_surat_masuk', $request->id_surat_masuk)
+            ->update([
+                'tanggal_disposisi' => now(), // Menyimpan tanggal dan waktu saat ini
+            ]);
+
         return redirect()->back()->with('success', 'Disposisi berhasil disimpan.');
     }
 
@@ -213,7 +219,13 @@ class SuratMasukController extends Controller
                 $suratMasuk->file_surat = $filePath;
             }
 
-            $suratMasuk->update($request->except(['file_surat']));
+            $suratMasuk->update(array_merge(
+                $request->except(['file_surat']),
+                [
+                    'tanggal_update' => now(),
+                    'update_by' => auth()->user()->username,
+                ]
+            ));
 
             return response()->json([
                 'message' => 'Surat Masuk updated successfully.',

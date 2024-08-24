@@ -185,7 +185,13 @@ class SuratKeluarController extends Controller
                 $suratkeluar->file_surat = $filePath;
             }
 
-            $suratkeluar->update($request->except(['file_surat']));
+            $suratkeluar->update(array_merge(
+                $request->except(['file_surat']),
+                [
+                    'tanggal_update' => now(),
+                    'update_by' => auth()->user()->username,
+                ]
+            ));
 
             return response()->json([
                 'message' => 'Surat Keluar updated successfully.',
