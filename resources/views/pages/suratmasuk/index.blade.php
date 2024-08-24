@@ -56,6 +56,18 @@
                                         <i class="bx bx-trash"></i>
                                     </button>
                                 </form>
+                                @if (!$suratmasuk->is_disposisi)
+                                    <form action="{{ route('suratmasuk.storeDisposisi') }}" method="POST"
+                                        style="display:inline;">
+                                        @csrf
+                                        <input type="hidden" name="id_bagian" value="{{ $suratmasuk->id_bagian }}">
+                                        <input type="hidden" name="id_surat_masuk"
+                                            value="{{ $suratmasuk->id_surat_masuk }}">
+                                        <button type="submit" class="btn btn-warning btn-sm">
+                                            <i class="bx bx-share"></i>
+                                        </button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                         @php
@@ -229,7 +241,7 @@
                                 if (response.file_surat) {
                                     var filePath = response.file_surat;
                                     if (!filePath.startsWith(
-                                        'storage/suratmasuk/')) {
+                                            'storage/suratmasuk/')) {
                                         filePath = 'storage/suratmasuk/' + filePath;
                                     }
                                     $('#file_surat_view').html(
@@ -241,10 +253,10 @@
                                 } else {
                                     $('#file_surat_view').html(
                                         '<span class="text-muted">No file uploaded.</span>'
-                                        );
+                                    );
                                 }
                                 $('#suratmasuk-modal').modal(
-                                'show'); // Open the modal
+                                    'show'); // Open the modal
                             }
                         });
                     });

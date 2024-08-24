@@ -29,6 +29,9 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('suratmasuk', \App\Http\Controllers\SuratMasukController::class);
         Route::post('suratmasuk/uploadfile/{id}', [\App\Http\Controllers\SuratMasukController::class, 'uploadFile'])
             ->name('suratmasuk.uploadfile');
+        Route::post('/suratmasuk/store-disposisi', [\App\Http\Controllers\SuratMasukController::class, 'storeDisposisi'])
+            ->name('suratmasuk.storeDisposisi');
+
         Route::resource('suratkeluar', \App\Http\Controllers\SuratKeluarController::class);
         Route::post('suratkeluar/uploadfile/{id}', [\App\Http\Controllers\SuratKeluarController::class, 'uploadFile'])
             ->name('suratkeluar.uploadfile');

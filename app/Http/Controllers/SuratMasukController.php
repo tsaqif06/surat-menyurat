@@ -27,6 +27,12 @@ class SuratMasukController extends Controller
         $ruangPenyimpanans = RuangPenyimpanan::all();
         $jenisSurats = JenisSurat::all();
         $suratmasuks = SuratMasuk::all();
+        foreach ($suratmasuks as $suratmasuk) {
+            $suratmasuk->is_disposisi = \DB::table('rel_disposisis')
+                ->where('id_bagian', $suratmasuk->id_bagian)
+                ->where('id_surat_masuk', $suratmasuk->id_surat_masuk)
+                ->exists();
+        }
         return view('pages.suratmasuk.index', ['suratmasuks' => $suratmasuks, 'relasis' => $relasis, 'bagians' => $bagians, 'ruangPenyimpanans' => $ruangPenyimpanans, 'jenisSurats' => $jenisSurats]);
     }
 
@@ -62,6 +68,23 @@ class SuratMasukController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Gagal menolak surat.'], 500);
         }
+    }
+
+    public function storeDisposisi(Request $request)
+    {
+        // Validasi data
+        $request->validate([
+            'id_bagian' => 'required|integer',
+            'id_surat_masuk' => 'required|integer',
+        ]);
+
+        // Simpan data ke tabel rel_disposisis
+        \DB::table('rel_disposisis')->insert([
+            'id_bagian' => $request->id_bagian,
+            'id_surat_masuk' => $request->id_surat_masuk,
+        ]);
+
+        return redirect()->back()->with('success', 'Disposisi berhasil disimpan.');
     }
 
     public function uploadFile(Request $request, $id)
