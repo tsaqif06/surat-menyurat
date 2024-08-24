@@ -24,7 +24,9 @@
                         <th>Judul</th>
                         <th>Lampiran</th>
                         <th>Tgl Surat Masuk</th>
-                        <th style="width: 200px;">Action</th>
+                        @if (auth()->user()->id_jabatan == 1)
+                            <th style="width: 200px;">Action</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>

@@ -20,71 +20,76 @@
                 <div data-i18n="{{ __('menu.home') }}">{{ __('menu.home') }}</div>
             </a>
         </li>
+        @if (auth()->user()->id_jabatan == 1)
+            <li class="menu-header small text-uppercase">
+                <span class="menu-header-text">Master Data</span>
+            </li>
 
-        <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">Master Data</span>
-        </li>
-
-        {{--  <li class="menu-item">
+            {{--  <li class="menu-item">
             <a href="app-email.html" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-envelope"></i>
                 <div class="text-truncate" data-i18n="Email">User</div>
             </a>
         </li>  --}}
-        <li class="menu-item">
-            <a href="{{ route('jabatan.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-chat"></i>
-                <div class="text-truncate" data-i18n="Chat">Jabatan</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="{{ route('bagian.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-calendar"></i>
-                <div class="text-truncate" data-i18n="Calendar">Bagian</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="{{ route('jenis.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-grid"></i>
-                <div class="text-truncate" data-i18n="Kanban">Jenis Surat</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="{{ route('ruang.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-grid"></i>
-                <div class="text-truncate" data-i18n="Kanban">Ruang Penyimpanan</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="{{ route('relasi.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-grid"></i>
-                <div class="text-truncate" data-i18n="Kanban">Perusahaan/Relasi</div>
-            </a>
-        </li>
+            <li class="menu-item">
+                <a href="{{ route('jabatan.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-chat"></i>
+                    <div class="text-truncate" data-i18n="Chat">Jabatan</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('bagian.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-calendar"></i>
+                    <div class="text-truncate" data-i18n="Calendar">Bagian</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('jenis.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-grid"></i>
+                    <div class="text-truncate" data-i18n="Kanban">Jenis Surat</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('ruang.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-grid"></i>
+                    <div class="text-truncate" data-i18n="Kanban">Ruang Penyimpanan</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('relasi.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-grid"></i>
+                    <div class="text-truncate" data-i18n="Kanban">Perusahaan/Relasi</div>
+                </a>
+            </li>
+        @endif
 
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Menu Utama</span>
         </li>
-        <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-mail-send"></i>
-                <div data-i18n="Persetujuan">Transaksi Surat</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="{{ route('suratmasuk.index') }}" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-grid"></i>
-                        <div class="text-truncate" data-i18n="Kanban">Surat Masuk</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="{{ route('suratkeluar.index') }}" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-grid"></i>
-                        <div class="text-truncate" data-i18n="Kanban">Surat Keluar</div>
-                    </a>
-                </li>
-            </ul>
-        </li>
+
+
+        @if (auth()->user()->id_jabatan == 1)
+            <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons bx bx-mail-send"></i>
+                    <div data-i18n="Persetujuan">Transaksi Surat</div>
+                </a>
+                <ul class="menu-sub">
+                    <li class="menu-item">
+                        <a href="{{ route('suratmasuk.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-grid"></i>
+                            <div class="text-truncate" data-i18n="Kanban">Surat Masuk</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{{ route('suratkeluar.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-grid"></i>
+                            <div class="text-truncate" data-i18n="Kanban">Surat Keluar</div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        @endif
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-mail-send"></i>
