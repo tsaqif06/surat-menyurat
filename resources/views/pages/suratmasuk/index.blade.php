@@ -2,7 +2,7 @@
 
 @section('content')
     <h4 class="py-3 mb-4">
-        <span class="text-muted fw-light">DataTables /</span> Basic
+        <span class="text-muted fw-light">Persetujuan /</span> Surat Masuk
     </h4>
 
     <!-- Add New Record Button -->
