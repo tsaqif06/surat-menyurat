@@ -78,7 +78,7 @@
                 <div class="d-flex align-items-end row">
                     <div class="col-sm-7">
                         <div class="card-body">
-                            <h4 class="card-title text-primary">Welcome</h4>
+                            <h4 class="card-title text-primary">Welcome, {{ auth()->user()->nama_user }}</h4>
                             <p class="mb-4">
                                 {{ now()->format('l, d F Y') }}
                             </p>
