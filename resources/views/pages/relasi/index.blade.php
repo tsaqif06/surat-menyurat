@@ -2,7 +2,7 @@
 
 @section('content')
     <h4 class="py-3 mb-4">
-        <span class="text-muted fw-light">DataTables /</span> Basic
+        <span class="text-muted fw-light">Master /</span> Relasi
     </h4>
 
     <!-- Add New Record Button -->

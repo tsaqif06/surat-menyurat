@@ -1,8 +1,10 @@
 @extends('layout.main')
 
 @section('content')
-    <x-breadcrumb :values="[__('menu.agenda.menu'), __('menu.agenda.incoming_letter')]">
-    </x-breadcrumb>
+<h4 class="py-3 mb-4">
+    Laporan Disposisi
+</h4>
+
 
     <div class="card mb-5">
         <div class="card-header">
