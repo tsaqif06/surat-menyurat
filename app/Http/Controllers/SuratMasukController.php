@@ -84,7 +84,7 @@ class SuratMasukController extends Controller
                 $suratMasuk->file_surat = str_replace('public/', 'storage/', $filePath);
                 $suratMasuk->save();
 
-                return response()->json(['message' => 'File uploaded successfully.']);
+                return response()->json(['message' => 'Done successfully.']);
             } else {
                 return response()->json(['error' => 'No file uploaded.'], 400);
             }
