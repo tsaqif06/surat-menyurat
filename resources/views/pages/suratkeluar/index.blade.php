@@ -177,7 +177,8 @@
                             <label for="file_surat" class="form-label">File Surat</label>
                             <input type="file" id="file_surat" name="file_surat"
                                 class="form-control @error('file_surat') is-invalid @enderror">
-                            <div id="file_surat_view" class="mt-2"></div> <!-- Display the file view button or message -->
+                            <div id="file_surat_view" class="mt-2"></div>
+                            <!-- Display the file view button or message -->
                             @error('file_surat')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -196,6 +197,59 @@
 @push('script')
     <script>
         $(document).ready(function() {
+            var table = $('#table').DataTable({
+                drawCallback: function(settings) {
+                    $('.btn-edit').click(function() {
+                        var id = $(this).data('id');
+
+                        $.ajax({
+                            url: '{{ url('suratkeluar') }}/' + id,
+                            method: 'GET',
+                            success: function(response) {
+                                $('#suratkeluar-modal-label').text(
+                                    'Edit Surat Keluar');
+                                $('#suratkeluar-form').attr('action',
+                                    '{{ url('suratkeluar') }}/' +
+                                    id);
+                                $('#id_surat_keluar').val(id);
+                                $('#id_relasi').val(response.id_relasi);
+                                $('#id_bagian').val(response.id_bagian);
+                                $('#id_jenis_surat').val(response.id_jenis_surat);
+                                $('#id_ruang_penyimpanan').val(response
+                                    .id_ruang_penyimpanan);
+                                $('#nomor_surat_keluar').val(response
+                                    .nomor_surat_keluar);
+                                $('#judul_surat_keluar').val(response
+                                    .judul_surat_keluar);
+                                $('#lampiran').val(response.lampiran);
+                                $('#perihal').val(response.perihal);
+                                $('#keterangan').val(response.keterangan);
+                                // Check if the file_surat exists and display it
+                                if (response.file_surat) {
+                                    var filePath = response.file_surat;
+                                    if (!filePath.startsWith(
+                                        'storage/suratkeluar/')) {
+                                        filePath = 'storage/suratkeluar/' +
+                                        filePath;
+                                    }
+                                    $('#file_surat_view').html(
+                                        '<a href="{{ url('') }}/' +
+                                        filePath +
+                                        '" class="btn btn-info btn-sm" target="_blank">' +
+                                        '<i class="fas fa-file-pdf"></i> View Current File</a>'
+                                    );
+                                } else {
+                                    $('#file_surat_view').html(
+                                        '<span class="text-muted">No file uploaded.</span>'
+                                        );
+                                }
+                                $('#suratkeluar-modal').modal(
+                                'show'); // Open the modal
+                            }
+                        });
+                    });
+                }
+            });
             // Handle Add New Surat Keluar button click
             $('#add-new-data').click(function() {
                 $('#suratkeluar-modal-label').text('Add New Surat Keluar');
@@ -213,49 +267,6 @@
                 $('#file_surat').val('');
                 $('#suratkeluar-modal').modal('show'); // Open the modal
             });
-
-            // Handle Edit button click
-            $('.btn-edit').click(function() {
-                var id = $(this).data('id');
-
-                $.ajax({
-                    url: '{{ url('suratkeluar') }}/' + id,
-                    method: 'GET',
-                    success: function(response) {
-                        $('#suratkeluar-modal-label').text('Edit Surat Keluar');
-                        $('#suratkeluar-form').attr('action', '{{ url('suratkeluar') }}/' +
-                            id);
-                        $('#id_surat_keluar').val(id);
-                        $('#id_relasi').val(response.id_relasi);
-                        $('#id_bagian').val(response.id_bagian);
-                        $('#id_jenis_surat').val(response.id_jenis_surat);
-                        $('#id_ruang_penyimpanan').val(response.id_ruang_penyimpanan);
-                        $('#nomor_surat_keluar').val(response.nomor_surat_keluar);
-                        $('#judul_surat_keluar').val(response.judul_surat_keluar);
-                        $('#lampiran').val(response.lampiran);
-                        $('#perihal').val(response.perihal);
-                        $('#keterangan').val(response.keterangan);
-                        // Check if the file_surat exists and display it
-                        if (response.file_surat) {
-                            var filePath = response.file_surat;
-                            if (!filePath.startsWith('storage/suratkeluar/')) {
-                                filePath = 'storage/suratkeluar/' + filePath;
-                            }
-                            $('#file_surat_view').html(
-                                '<a href="{{ url('') }}/' + filePath +
-                                '" class="btn btn-info btn-sm" target="_blank">' +
-                                '<i class="fas fa-file-pdf"></i> View Current File</a>'
-                            );
-                        } else {
-                            $('#file_surat_view').html(
-                                '<span class="text-muted">No file uploaded.</span>');
-                        }
-                        $('#suratkeluar-modal').modal('show'); // Open the modal
-                    }
-                });
-            });
-
-
 
             // Handle form submit for both add and edit
             $('#suratkeluar-form').submit(function(e) {

@@ -97,6 +97,30 @@
 @push('script')
     <script>
         $(document).ready(function() {
+            var table = $('#table').DataTable({
+                drawCallback: function(settings) {
+                    $('.btn-edit').click(function() {
+                        var id = $(this).data('id');
+
+                        $.ajax({
+                            url: '{{ url('jenis') }}/' + id,
+                            method: 'GET',
+                            success: function(response) {
+                                $('#jenissurat-modal-label').text(
+                                    'Edit Jenis Surat');
+                                $('#jenissurat-form').attr('action',
+                                    '{{ url('jenis') }}/' + id);
+                                $('#id_jenis_surat').val(id);
+                                $('#nama_jenis_surat').val(response
+                                    .nama_jenis_surat);
+                                $('#jenissurat-modal').modal(
+                                    'show'); // Open the modal
+                            }
+                        });
+                    });
+                }
+            });
+
             // Handle Add New Jenis Surat button click
             $('#add-new-data').click(function() {
                 $('#jenissurat-modal-label').text('Add New Jenis Surat');
@@ -106,22 +130,7 @@
                 $('#jenissurat-modal').modal('show'); // Open the modal
             });
 
-            // Handle Edit button click
-            $('.btn-edit').click(function() {
-                var id = $(this).data('id');
 
-                $.ajax({
-                    url: '{{ url('jenis') }}/' + id,
-                    method: 'GET',
-                    success: function(response) {
-                        $('#jenissurat-modal-label').text('Edit Jenis Surat');
-                        $('#jenissurat-form').attr('action', '{{ url('jenis') }}/' + id);
-                        $('#id_jenis_surat').val(id);
-                        $('#nama_jenis_surat').val(response.nama_jenis_surat);
-                        $('#jenissurat-modal').modal('show'); // Open the modal
-                    }
-                });
-            });
 
             // Handle form submit for both add and edit
             $('#jenissurat-form').submit(function(e) {

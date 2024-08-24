@@ -95,6 +95,26 @@
     @push('script')
         <script>
             $(document).ready(function() {
+                var table = $('#table').DataTable({
+                    drawCallback: function(settings) {
+                        $('.btn-edit').click(function() {
+                            var id = $(this).data('id');
+
+                            $.ajax({
+                                url: '{{ url('relasi') }}/' + id,
+                                method: 'GET',
+                                success: function(response) {
+                                    $('#relasi-modal-label').text('Edit Relasi');
+                                    $('#relasi-form').attr('action',
+                                        '{{ url('relasi') }}/' + id);
+                                    $('#id_relasi').val(id);
+                                    $('#nama_relasi').val(response.nama_relasi);
+                                    $('#relasi-modal').modal('show'); // Open the modal
+                                }
+                            });
+                        });
+                    }
+                });
                 // Handle Add New Relasi button click
                 $('#add-new-data').click(function() {
                     $('#relasi-modal-label').text('Add New Relasi');
@@ -102,23 +122,6 @@
                     $('#id_relasi').val('');
                     $('#nama_relasi').val('');
                     $('#relasi-modal').modal('show'); // Open the modal
-                });
-
-                // Handle Edit button click
-                $('.btn-edit').click(function() {
-                    var id = $(this).data('id');
-
-                    $.ajax({
-                        url: '{{ url('relasi') }}/' + id,
-                        method: 'GET',
-                        success: function(response) {
-                            $('#relasi-modal-label').text('Edit Relasi');
-                            $('#relasi-form').attr('action', '{{ url('relasi') }}/' + id);
-                            $('#id_relasi').val(id);
-                            $('#nama_relasi').val(response.nama_relasi);
-                            $('#relasi-modal').modal('show'); // Open the modal
-                        }
-                    });
                 });
 
                 // Handle form submit for both add and edit
